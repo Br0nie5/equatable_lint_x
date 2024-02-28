@@ -1,3 +1,7 @@
+## 0.2.3+1
+
+- remove unnecessary dart version bump
+
 ## 0.2.3
 
 - Bump to dart 3.0.0

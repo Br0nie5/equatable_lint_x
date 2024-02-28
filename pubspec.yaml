@@ -1,11 +1,11 @@
 name: equatable_lint_x
-version: 0.2.3
+version: 0.2.3+1
 description: This is a set of rules to make classes using Equatable more maintainable. We make sure here that every fields in an Equatable class is linked to the Equatable props getter.
 homepage: https://github.com/Br0nie5/equatable_lint_x
 repository: https://github.com/Br0nie5/equatable_lint_x
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=2.19.0 <4.0.0"
 
 dependencies:
   analyzer: ">=5.4.0 <7.0.0"
