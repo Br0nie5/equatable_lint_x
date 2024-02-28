@@ -24,6 +24,8 @@ This package used the [custom_lint](https://github.com/invertase/dart_custom_lin
     - [Create equatable props with field in it](#create-equatable-props-with-field-in-it)
   - [always\_call\_super\_props\_when\_overriding\_equatable\_props fixes](#always_call_super_props_when_overriding_equatable_props-fixes)
     - [Call super in overridden equatable props](#call-super-in-overridden-equatable-props)
+- [All the assists](#all-the-assists)
+  - [Make class extend Equatable](#make-class-extend-Equatable)
 
 ## Setup local
 
@@ -137,3 +139,9 @@ class MyClass extends RandomClassExtendingEquatable {
 #### Call super in overridden equatable props
 
 ![Call super in overridden equatable props sample](https://raw.githubusercontent.com/Br0nie5/equatable_lint_x/main/resources/call_super_in_overridden_equatable_props.gif)
+
+## All the assists
+
+### Make class extend Equatable
+
+![Make class extend Equatable sample](https://raw.githubusercontent.com/Br0nie5/equatable_lint_x/main/resources/make_class_extend_equatable.gif)
