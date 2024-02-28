@@ -1,0 +1,38 @@
+name: Test equatable_lint_x package
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: 'Test equatable_lint_x'
+    runs-on: ubuntu-22.04
+
+    steps:
+      # Checkout repository
+      - uses: actions/checkout@v4.1.1
+
+      # Setup Dart SDK
+      - uses: dart-lang/setup-dart@v1.6.2
+        with:
+          sdk: 2.19.6
+
+      - name: Install Dependencies
+        run: dart pub get
+
+      - name: Analyze
+        run: dart analyze lib example/lib
+
+      - name: Format
+        run: dart format --set-exit-if-changed lib example/lib
+
+      - name: Activate pana pub package to compute package score
+        run: dart pub global activate pana
+
+      - name: Check package score
+        run: pana --exit-code-threshold=0
