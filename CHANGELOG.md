@@ -1,3 +1,7 @@
+## 0.2.1+1
+
+- Fix bug showing `always_call_super_props_when_overriding_equatable_props` on class extending another non equatable class with props field
+
 ## 0.2.1
 
 - Fork from [equatable_lint](https://pub.dev/packages/equatable_lint)
