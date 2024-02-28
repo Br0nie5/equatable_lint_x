@@ -8,8 +8,7 @@ extension AddNonEquatableClassDeclarationListener on LintRuleNodeRegistry {
   void addNonEquatableClassDeclaration(
     void Function({
       required ClassDeclaration classNode,
-    })
-        listener,
+    }) listener,
   ) {
     addClassDeclaration((classNode) {
       final classElement = classNode.declaredElement;

@@ -15,8 +15,7 @@ extension AddEquatableClassFieldDeclarationListener on LintRuleNodeRegistry {
       required ClassDeclaration classNode,
       required List<FieldElement> watchableFields,
       required EquatablePropsExpressionDetails? equatablePropsExpressionDetails,
-    })
-        listener, {
+    }) listener, {
     bool Function(FieldDeclaration)? optionalPreCheck,
   }) {
     addFieldDeclaration((fieldNode) {

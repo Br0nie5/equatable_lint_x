@@ -21,7 +21,7 @@ jobs:
       # Setup Dart SDK
       - uses: dart-lang/setup-dart@v1.6.2
         with:
-          sdk: 2.19.6
+          sdk: 3.3.0
 
       - name: Install Dependencies
         run: dart pub get
@@ -36,4 +36,4 @@ jobs:
         run: dart pub global activate pana
 
       - name: Check package score
-        run: pana --exit-code-threshold=10
+        run: pana --exit-code-threshold=0
