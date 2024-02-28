@@ -1,5 +1,6 @@
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
+import 'package:equatable_lint_x/src/constants/package_constants.dart';
 import 'package:equatable_lint_x/src/lints/missing_field_in_equatable_props/fixes/add_every_fields_to_equatable_props.dart';
 import 'package:equatable_lint_x/src/lints/missing_field_in_equatable_props/fixes/add_field_to_equatable_props.dart';
 import 'package:equatable_lint_x/src/lints/missing_field_in_equatable_props/fixes/create_equatable_props_with_every_fields_in_it.dart';
@@ -14,6 +15,8 @@ class MissingFieldInEquatableProps extends DartLintRule {
   static const _code = LintCode(
     name: 'missing_field_in_equatable_props',
     problemMessage: 'Every field of your class should be in equatable props',
+    url:
+        '''$equatableLintXGithubRepositoryBaseUrl?tab=readme-ov-file#missing_field_in_equatable_props''',
   );
 
   @override
