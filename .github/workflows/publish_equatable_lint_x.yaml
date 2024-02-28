@@ -1,0 +1,34 @@
+name: Publish equatable_lint_x package to pub.dev
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+*' # tag pattern on pub.dev: 'v{{version}'
+
+jobs:
+  test:
+    uses: ./.github/workflows/test_equatable_lint_x.yaml
+
+  publish:
+    name: 'Publish to pub.dev'
+    needs: test
+
+    permissions:
+      id-token: write
+
+    runs-on: ubuntu-22.04
+
+    steps:
+      # Checkout repository
+      - uses: actions/checkout@v4.1.1
+
+      # Setup Dart SDK
+      - uses: dart-lang/setup-dart@v1.6.2
+        with:
+          sdk: 2.19.6
+
+      - name: Install Dependencies
+        run: dart pub get
+
+      - name: Publish to pub.dev
+        run: dart pub publish -f
