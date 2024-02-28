@@ -1,3 +1,10 @@
+## 0.2.2
+
+- Assists :
+    - Add assist to help you extends Equatable when your class is not already doing it
+- Lints :
+    - add urls linking to lints details
+
 ## 0.2.1+1
 
 - Fix bug showing `always_call_super_props_when_overriding_equatable_props` on class extending another non equatable class with props field
