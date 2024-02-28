@@ -1,3 +1,8 @@
+## 0.2.3
+
+- Bump to dart 3.0.0
+- Bump to custom_lint 0.6.0
+
 ## 0.2.2
 
 - Assists :
