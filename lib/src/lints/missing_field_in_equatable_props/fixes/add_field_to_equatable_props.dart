@@ -41,7 +41,7 @@ class AddFieldToEquatableProps extends DartFix {
                 convertFieldsNamesToSingleString(
                   [
                     ...equatablePropsExpressionDetails.fieldsNames,
-                    fieldElement.name,
+                    fieldElement.name3!,
                   ],
                 ) +
                 equatablePropsExpressionDetails.lastPart,

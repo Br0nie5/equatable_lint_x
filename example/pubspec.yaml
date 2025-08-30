@@ -8,10 +8,10 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  analyzer: ^6.4.1
-  equatable: ^2.0.5
+  analyzer: ^7.5.0
+  equatable: ^2.0.7
 
 dev_dependencies:
-  custom_lint: ^0.6.2
+  custom_lint: ^0.8.0
   equatable_lint_x:
     path: ../

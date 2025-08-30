@@ -28,10 +28,9 @@ class CreateEquatablePropsWithEveryFieldsInIt extends DartFix {
           return;
         }
 
-        final classSuperTypeElement =
-            classNode.declaredElement!.supertype?.element;
+        final classSuperType = classNode.declaredFragment?.supertype;
 
-        if (classSuperTypeElement == null) {
+        if (classSuperType == null) {
           return;
         }
 
@@ -57,9 +56,7 @@ class CreateEquatablePropsWithEveryFieldsInIt extends DartFix {
               fieldsNames:
                   watchableFields.map((field) => field.displayName).toList(),
               hasOverrideEquatablePropsInSuperClass:
-                  getHasOverrideEquatablePropsInSuperClass(
-                classSuperTypeElement,
-              ),
+                  getHasOverrideEquatablePropsInSuperClass(classSuperType),
             ),
           );
         });

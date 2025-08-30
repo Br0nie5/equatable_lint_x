@@ -11,7 +11,7 @@ extension AddNonEquatableClassDeclarationListener on LintRuleNodeRegistry {
     }) listener,
   ) {
     addClassDeclaration((classNode) {
-      final classElement = classNode.declaredElement;
+      final classElement = classNode.declaredFragment?.element;
       if (classElement == null) {
         return;
       }

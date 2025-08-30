@@ -1,3 +1,4 @@
+import 'package:analyzer/error/error.dart' show AnalysisError;
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 import 'package:equatable_lint_x/src/constants/package_constants.dart';
@@ -28,7 +29,15 @@ class AlwaysCallSuperPropsWhenOverridingEquatableProps extends DartLintRule {
       required equatablePropsClassMember,
       required equatablePropsExpressionDetails,
     }) {
-      reporter.reportErrorForNode(_code, equatablePropsClassMember);
+      reporter.reportError(
+        AnalysisError.forValues(
+          source: resolver.source,
+          offset: equatablePropsClassMember.offset,
+          length: equatablePropsClassMember.length,
+          errorCode: _code,
+          message: _code.problemMessage,
+        ),
+      );
     });
   }
 

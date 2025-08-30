@@ -28,7 +28,7 @@ class AddEveryFieldsToEquatableProps extends DartFix {
         }
 
         final classSuperTypeElement =
-            classNode.declaredElement!.supertype?.element;
+            classNode.declaredFragment?.supertype?.element3;
 
         if (classSuperTypeElement == null) {
           return;

@@ -1,3 +1,4 @@
+import 'package:analyzer/error/error.dart' show AnalysisError;
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 import 'package:equatable_lint_x/src/constants/package_constants.dart';
@@ -40,7 +41,15 @@ class MissingFieldInEquatableProps extends DartLintRule {
               false;
 
       if (!isFieldInEquatableProps) {
-        reporter.reportErrorForNode(_code, fieldNode);
+        reporter.reportError(
+          AnalysisError.forValues(
+            source: resolver.source,
+            offset: fieldNode.offset,
+            length: fieldNode.length,
+            errorCode: _code,
+            message: _code.problemMessage,
+          ),
+        );
       }
     });
   }

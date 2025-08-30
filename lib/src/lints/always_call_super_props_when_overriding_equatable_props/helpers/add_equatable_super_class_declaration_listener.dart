@@ -23,10 +23,9 @@ extension AddEquatableSuperClassDeclarationListener on LintRuleNodeRegistry {
         }
       }
 
-      final classSuperTypeElement =
-          classNode.declaredElement!.supertype?.element;
+      final classSuperType = classNode.declaredFragment?.supertype;
 
-      if (classSuperTypeElement == null) {
+      if (classSuperType == null) {
         return;
       }
 
@@ -34,14 +33,14 @@ extension AddEquatableSuperClassDeclarationListener on LintRuleNodeRegistry {
         equatableClassName,
         packageName: equatablePackageName,
       );
-      final classType = classSuperTypeElement.thisType;
+      final classType = classSuperType.element3.thisType;
 
       if (!typeChecker.isAssignableFromType(classType)) {
         return;
       }
 
       final hasOverrideEquatablePropsInSuperClass =
-          getHasOverrideEquatablePropsInSuperClass(classSuperTypeElement);
+          getHasOverrideEquatablePropsInSuperClass(classSuperType);
 
       if (!hasOverrideEquatablePropsInSuperClass) {
         return;

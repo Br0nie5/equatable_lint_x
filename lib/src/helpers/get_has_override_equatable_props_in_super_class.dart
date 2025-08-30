@@ -1,24 +1,16 @@
-import 'package:analyzer/dart/element/element.dart';
-import 'package:collection/collection.dart';
+import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/type.dart';
 import 'package:equatable_lint_x/src/constants/equatable_constants.dart';
 
 /// Check if the superclass has override props or not
 bool getHasOverrideEquatablePropsInSuperClass(
-  InterfaceElement superClassElement,
+  InterfaceType classSuperType,
 ) {
-  final equatablePropsAccessorElement =
-      superClassElement.accessors.firstWhereOrNull(
-    (accessor) =>
-        accessor.hasOverride &&
-        accessor.isGetter &&
-        accessor.name == equatablePropsFieldName,
+  final listOfEquatableOverride = classSuperType.element3.getOverridden(
+    Name(classSuperType.element3.library2.uri, equatablePropsFieldName),
   );
-  if (equatablePropsAccessorElement != null) {
+  if (listOfEquatableOverride != null && listOfEquatableOverride.isNotEmpty) {
     return true;
   }
-
-  final equatablePropsFieldElement = superClassElement.fields.firstWhereOrNull(
-    (field) => field.hasOverride && field.name == equatablePropsFieldName,
-  );
-  return equatablePropsFieldElement != null;
+  return false;
 }
