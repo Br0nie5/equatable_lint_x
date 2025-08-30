@@ -18,6 +18,9 @@ linter:
     # Conflicts with `avoid_final_parameters`
     prefer_final_parameters: false
 
+    # Conflicts with disabling `omit_local_variable_types`
+    specify_nonobvious_local_variable_types: false
+
     # Conflicts with `omit_local_variable_types` and other rules.
     # As per Dart guidelines, we want to avoid unnecessary types to make the code
     # more readable.

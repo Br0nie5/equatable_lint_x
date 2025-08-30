@@ -1,3 +1,4 @@
+// This is to show examples
 // ignore_for_file: overridden_fields
 
 import 'package:equatable/equatable.dart';
