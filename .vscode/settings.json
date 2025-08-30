@@ -1,7 +1,14 @@
 {
   "dart.flutterSdkPath": ".fvm/versions/3.35.2",
   "cSpell.words": [
+    "combinators",
+    "futureor",
+    "interps",
+    "ints",
+    "nonobvious",
     "pana",
-    "pubspec"
+    "pubspec",
+    "tearoffs",
+    "unawaited"
   ]
 }
