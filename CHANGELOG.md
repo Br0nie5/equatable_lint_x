@@ -1,3 +1,7 @@
+## 0.3.0
+
+- Bump to custom_lint 0.8.0
+
 ## 0.2.3+1
 
 - remove unnecessary dart version bump
