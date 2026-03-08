@@ -1,8 +1,11 @@
-/// Equatable props field displayName
-const equatablePropsFieldName = 'props';
+/// Class that contains all the constants related to Equatable
+class EquatableConst {
+  /// Equatable props field displayName
+  static const propsFieldName = 'props';
 
-/// Equatable class displayName
-const equatableClassName = 'Equatable';
+  /// Equatable class displayName
+  static const className = 'Equatable';
 
-/// Equatable package displayName
-const equatablePackageName = 'equatable';
+  /// Equatable package displayName
+  static const packageName = 'equatable';
+}

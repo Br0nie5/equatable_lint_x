@@ -1,3 +1,9 @@
+## 0.4.0
+
+- Use official solution analysis_server_plugin instead of custom_lint
+- Bump to analyzer 9.0.0
+- Fixes and Assist are not implemented yet with this new solution
+
 ## 0.3.0
 
 - Bump to custom_lint 0.8.0

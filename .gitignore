@@ -10,6 +10,9 @@
 .svn/
 migrate_working_dir/
 
+# Coverage related
+coverage/
+
 # Dart/Pub related
 .dart_tool/
 pubspec.lock

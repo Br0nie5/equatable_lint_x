@@ -4,11 +4,11 @@
 import 'package:equatable/equatable.dart';
 
 class FieldNotInPropsExample extends Equatable {
-  FieldNotInPropsExample({this.field, this.field2});
+  FieldNotInPropsExample({this.field1, this.field2});
 
   // A lint will appear because these fields are not in not in props
 
-  final String? field;
+  final String? field1;
 
   final String? field2;
 
