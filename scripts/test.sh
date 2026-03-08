@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+CI=false
 COVERAGE=false
 THRESHOLD=100
 
 # --- Parse arguments ---
 for arg in "$@"; do
   case "$arg" in
+    --ci) CI=true ;;
     --coverage) COVERAGE=true ;;
     *) echo "Unknown argument: $arg" && exit 1 ;;
   esac
@@ -37,7 +39,9 @@ if [ "$COVERAGE" = true ]; then
     --remove coverage/lcov.info '*.g.dart' '*.gen.dart' '*.gicons.dart' '*.glocalizations.dart' \
     -o coverage/lcov.info
 
-  genhtml coverage/lcov.info -q -o coverage
+  if [ "$CI" = false ]; then
+    genhtml coverage/lcov.info -q -o coverage
+  fi
 
   echo ""
   echo "📉 Checking coverage threshold..."
