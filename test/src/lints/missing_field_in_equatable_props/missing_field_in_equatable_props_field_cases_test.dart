@@ -30,8 +30,8 @@ class EquatableTestClass extends Equatable {
 ''',
       [
         lint(
-          128,
-          19,
+          142,
+          5,
           correctionContains:
               MissingFieldInEquatableProps.code.correctionMessage,
           messageContainsAll: [
@@ -61,8 +61,18 @@ class EquatableTestClass extends Equatable {
 ''',
       [
         lint(
-          142,
-          28,
+          156,
+          6,
+          correctionContains:
+              MissingFieldInEquatableProps.code.correctionMessage,
+          messageContainsAll: [
+            MissingFieldInEquatableProps.code.problemMessage,
+          ],
+          name: MissingFieldInEquatableProps.code.name,
+        ),
+        lint(
+          164,
+          6,
           correctionContains:
               MissingFieldInEquatableProps.code.correctionMessage,
           messageContainsAll: [
@@ -94,8 +104,8 @@ class EquatableTestClass extends Equatable {
 ''',
       [
         lint(
-          142,
-          20,
+          156,
+          6,
           correctionContains:
               MissingFieldInEquatableProps.code.correctionMessage,
           messageContainsAll: [
@@ -104,8 +114,8 @@ class EquatableTestClass extends Equatable {
           name: MissingFieldInEquatableProps.code.name,
         ),
         lint(
-          167,
-          20,
+          181,
+          6,
           correctionContains:
               MissingFieldInEquatableProps.code.correctionMessage,
           messageContainsAll: [
@@ -135,8 +145,8 @@ class EquatableTestClass with EquatableMixin {
 ''',
       [
         lint(
-          130,
-          19,
+          144,
+          5,
           correctionContains:
               MissingFieldInEquatableProps.code.correctionMessage,
           messageContainsAll: [

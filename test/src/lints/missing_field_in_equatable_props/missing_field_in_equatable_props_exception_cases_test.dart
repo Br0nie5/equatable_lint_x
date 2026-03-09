@@ -15,7 +15,7 @@ class MissingFieldInEquatablePropsTestExceptionsCases
   /// Should not show a lint if the class extends Equatable and a static
   /// variable is not in equatable props
   Future<void> test_case_1() async {
-    await assertDiagnostics('''
+    await assertNoDiagnostics('''
 import 'package:equatable/equatable.dart';
 
 class EquatableTestClass extends Equatable {
@@ -26,12 +26,12 @@ class EquatableTestClass extends Equatable {
   @override
   List<Object?> get props => [];
 }
-''', []);
+''');
   }
 
   /// Should allow the lint "missing_field_in_equatable_props" to be ignored
   Future<void> test_case_2() async {
-    await assertDiagnostics('''
+    await assertNoDiagnostics('''
 import 'package:equatable/equatable.dart';
 
 class EquatableTestClass extends Equatable {
@@ -43,13 +43,13 @@ class EquatableTestClass extends Equatable {
   @override
   List<Object?> get props => [];
 }
-''', []);
+''');
   }
 
   /// Should not show a lint if the class extends Equatable and a getter is not
   /// in equatable props
   Future<void> test_case_3() async {
-    await assertDiagnostics('''
+    await assertNoDiagnostics('''
 import 'package:equatable/equatable.dart';
 
 class EquatableTestClass extends Equatable {
@@ -60,18 +60,18 @@ class EquatableTestClass extends Equatable {
   @override
   List<Object?> get props => [];
 }
-''', []);
+''');
   }
 
   /// Should not show a lint if the class is not extending Equatable
   Future<void> test_case_4() async {
-    await assertDiagnostics('''
+    await assertNoDiagnostics('''
 class NotEquatableTestClass {
   const NotEquatableTestClass({this.field});
 
   final String? field;
 }
-''', []);
+''');
   }
 
   /// Should show a lint if the class that has Equatable as a superclass and no
@@ -96,8 +96,8 @@ class EquatableTestClass extends BaseEquatableTestClass {
 ''',
       [
         lint(
-          279,
-          19,
+          293,
+          5,
           correctionContains:
               MissingFieldInEquatableProps.code.correctionMessage,
           messageContainsAll: [

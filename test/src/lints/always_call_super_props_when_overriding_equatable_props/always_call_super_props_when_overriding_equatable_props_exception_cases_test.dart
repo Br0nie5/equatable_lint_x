@@ -21,7 +21,7 @@ class AlwaysCallSuperPropsWhenOverridingEquatablePropsTestExceptionCases
   /// Should not show a lint if a class is directly extending Equatable and
   /// props does not call super.props
   Future<void> test_case_1() async {
-    await assertDiagnostics('''
+    await assertNoDiagnostics('''
 import 'package:equatable/equatable.dart';
 
 class BaseEquatableTestClass extends Equatable {
@@ -30,13 +30,13 @@ class BaseEquatableTestClass extends Equatable {
   @override
   List<Object?> get props => [];
 }
-''', []);
+''');
   }
 
   /// Should not show a lint if a class is directly with EquatableMixin and
   /// props does not call super.props
   Future<void> test_case_2() async {
-    await assertDiagnostics('''
+    await assertNoDiagnostics('''
 import 'package:equatable/equatable.dart';
 
 class BaseEquatableTestClass with EquatableMixin {
@@ -45,6 +45,6 @@ class BaseEquatableTestClass with EquatableMixin {
   @override
   List<Object?> get props => [];
 }
-''', []);
+''');
   }
 }

@@ -37,8 +37,8 @@ class EquatableTestClass extends BaseEquatableTestClass {
 ''',
       [
         lint(
-          282,
-          22,
+          296,
+          8,
           correctionContains:
               MissingFieldInEquatableProps.code.correctionMessage,
           messageContainsAll: [
@@ -76,8 +76,8 @@ class EquatableTestClass extends BaseEquatableClass {
 ''',
       [
         lint(
-          335,
-          19,
+          349,
+          5,
           correctionContains:
               MissingFieldInEquatableProps.code.correctionMessage,
           messageContainsAll: [

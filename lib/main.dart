@@ -1,5 +1,6 @@
 import 'package:analysis_server_plugin/plugin.dart';
 import 'package:analysis_server_plugin/registry.dart';
+import 'package:equatable_lint_x/src/fixes/missing_field_in_equatable_props.dart';
 import 'package:equatable_lint_x/src/lints/always_call_super_props_when_overriding_equatable_props.dart';
 import 'package:equatable_lint_x/src/lints/missing_field_in_equatable_props.dart';
 
@@ -13,6 +14,14 @@ class _EquatablePlugin extends Plugin {
   @override
   void register(PluginRegistry registry) {
     registry.registerWarningRule(MissingFieldInEquatableProps());
+    registry.registerFixForRule(
+      MissingFieldInEquatableProps.code,
+      AddMissingFieldInEquatablePropsFix.new,
+    );
+    registry.registerFixForRule(
+      MissingFieldInEquatableProps.code,
+      AddAllMissingFieldInEquatablePropsFix.new,
+    );
 
     registry.registerWarningRule(
       AlwaysCallSuperPropsWhenOverridingEquatableProps(),

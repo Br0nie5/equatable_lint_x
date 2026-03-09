@@ -1,3 +1,6 @@
+// Need this for some examples
+// ignore_for_file: avoid_multiple_declarations_per_line
+
 import 'package:equatable/equatable.dart';
 
 class FieldNotInPropsFieldExample extends Equatable {
@@ -13,11 +16,11 @@ class FieldNotInPropsFieldExample extends Equatable {
 class SameLineFieldsNotInPropsFieldExample extends Equatable {
   SameLineFieldsNotInPropsFieldExample({this.field1, this.field2});
 
-  // A lint will appear here because field1 and/or field2 is not in props field
+  // A lint will appear here because field1 is not in props field
   final String? field1, field2;
 
   @override
-  late final List<Object?> props = [];
+  late final List<Object?> props = [field2];
 }
 
 class MultipleFieldsNotInPropsFieldExample extends Equatable {

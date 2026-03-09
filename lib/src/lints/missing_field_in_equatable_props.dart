@@ -4,9 +4,9 @@ import 'package:analyzer/analysis_rule/rule_visitor_registry.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/error/error.dart';
-import 'package:collection/collection.dart';
 import 'package:equatable_lint_x/src/constants/equatable_constants.dart';
 import 'package:equatable_lint_x/src/utils/get_all_extend_classes_and_mixins.dart';
+import 'package:equatable_lint_x/src/utils/get_all_non_equatable_variables_from_class_declaration.dart';
 import 'package:equatable_lint_x/src/utils/get_equatable_props_array_elements.dart';
 
 /// [MissingFieldInEquatableProps] analysis rule that look for any class that
@@ -55,25 +55,16 @@ class _Visitor extends SimpleAstVisitor<void> {
       return;
     }
 
-    final fieldsInEquatableProps = getEquatablePropsArrayElements(node);
+    final variablesNamesInEquatableProps = getEquatablePropsArrayElements(node);
 
-    final variablesDeclaration = node.childEntities
-        .whereType<FieldDeclaration>()
-        .where((fieldDeclaration) => !fieldDeclaration.isStatic)
-        .map(
-          (fieldDeclaration) => fieldDeclaration.fields.childEntities
-              .whereType<VariableDeclaration>()
-              .where(
-                (variableDeclaration) =>
-                    variableDeclaration.name.lexeme !=
-                    EquatableConst.propsFieldName,
-              ),
-        )
-        .flattenedToList;
+    final variablesDeclaration =
+        getAllNonEquatableVariablesFromClassDeclaration(node);
 
     for (final variableDeclaration in variablesDeclaration) {
-      if (!fieldsInEquatableProps.contains(variableDeclaration.name.lexeme)) {
-        rule.reportAtNode(variableDeclaration.parent);
+      if (!variablesNamesInEquatableProps.contains(
+        variableDeclaration.name.lexeme,
+      )) {
+        rule.reportAtNode(variableDeclaration);
       }
     }
   }

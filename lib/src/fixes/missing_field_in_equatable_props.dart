@@ -1,0 +1,152 @@
+import 'package:analysis_server_plugin/edit/dart/correction_producer.dart';
+import 'package:analysis_server_plugin/edit/dart/dart_fix_kind_priority.dart';
+import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/source/source_range.dart';
+import 'package:analyzer_plugin/utilities/change_builder/change_builder_core.dart';
+import 'package:analyzer_plugin/utilities/fixes/fixes.dart';
+import 'package:equatable_lint_x/src/lints/missing_field_in_equatable_props.dart';
+import 'package:equatable_lint_x/src/utils/get_all_non_equatable_variables_from_class_declaration.dart';
+import 'package:equatable_lint_x/src/utils/get_equatable_props_array_elements.dart';
+import 'package:equatable_lint_x/src/utils/get_equatable_props_node.dart';
+import 'package:equatable_lint_x/src/utils/node_source_range_extension.dart';
+
+Future<void> _buildNewEquatablePropsFromMissingVariables({
+  required ChangeBuilder builder,
+  required VariableDeclaration node,
+  required String file,
+  required List<String> missingVariablesNamesInProps,
+}) async {
+  final equatableClassDeclaration = node
+      .thisOrAncestorOfType<ClassDeclaration>();
+  if (equatableClassDeclaration == null) {
+    return;
+  }
+
+  final variablesNamesInEquatableProps = getEquatablePropsArrayElements(
+    equatableClassDeclaration,
+  );
+
+  final allVariablesInPropsString =
+      '''[${[...variablesNamesInEquatableProps, ...missingVariablesNamesInProps].join(', ')}]''';
+
+  final AstNode? equatablePropsNode =
+      getEquatablePropsGetterNode(equatableClassDeclaration) ??
+      getEquatablePropsFieldNode(equatableClassDeclaration);
+
+  if (equatablePropsNode != null) {
+    await builder.addDartFileEdit(file, (fileBuilder) {
+      fileBuilder.addReplacement(equatablePropsNode.sourceRange, (builder) {
+        builder.write(
+          equatablePropsNode
+              .toString()
+              .replaceAll(RegExp(r'\[[\s\S]*?\]'), allVariablesInPropsString)
+              .replaceAll('@override ', '@override\n\t'),
+        );
+      });
+    });
+  } else {
+    await builder.addDartFileEdit(file, (fileBuilder) {
+      fileBuilder.addReplacement(
+        SourceRange(equatableClassDeclaration.end - 1, 0),
+        (builder) {
+          builder.write(
+            '''\n\t@override\n\tList<Object?> get props => super.props..addAll($allVariablesInPropsString);\n''',
+          );
+        },
+      );
+    });
+  }
+}
+
+/// Fix resolver for lint[MissingFieldInEquatableProps].
+/// Add the missing field in the equatable props field or getter.
+/// Create the props getter with the missing field if it does not exist already.
+class AddMissingFieldInEquatablePropsFix extends ResolvedCorrectionProducer {
+  /// [AddMissingFieldInEquatablePropsFix] constructor.
+  AddMissingFieldInEquatablePropsFix({required super.context});
+
+  /// [FixKind] defined for [AddMissingFieldInEquatablePropsFix.fixKind].
+  static final fix = FixKind(
+    MissingFieldInEquatableProps.code.name,
+    DartFixKindPriority.standard,
+    'Add the missing field inside the equatable props field or getter.',
+  );
+
+  @override
+  FixKind get fixKind => fix;
+
+  @override
+  CorrectionApplicability get applicability =>
+      CorrectionApplicability.singleLocation;
+
+  @override
+  Future<void> compute(ChangeBuilder builder) async {
+    final node = this.node;
+    if (node is! VariableDeclaration) {
+      return;
+    }
+
+    await _buildNewEquatablePropsFromMissingVariables(
+      builder: builder,
+      node: node,
+      file: file,
+      missingVariablesNamesInProps: [node.name.lexeme],
+    );
+  }
+}
+
+/// Fix resolver for lint[MissingFieldInEquatableProps].
+/// Add all the missing fields in the equatable props field or getter.
+/// Create the props getter with all the missing field if it does not exist
+/// already.
+class AddAllMissingFieldInEquatablePropsFix extends ResolvedCorrectionProducer {
+  /// [AddAllMissingFieldInEquatablePropsFix] constructor.
+  AddAllMissingFieldInEquatablePropsFix({required super.context});
+
+  /// [FixKind] defined for [AddAllMissingFieldInEquatablePropsFix.fixKind].
+  static final fix = FixKind(
+    MissingFieldInEquatableProps.code.name,
+    DartFixKindPriority.inFile,
+    'Add all the missing fields inside the equatable props field or getter.',
+  );
+
+  @override
+  FixKind get fixKind => fix;
+
+  @override
+  CorrectionApplicability get applicability =>
+      CorrectionApplicability.singleLocation;
+
+  @override
+  Future<void> compute(ChangeBuilder builder) async {
+    final node = this.node;
+    if (node is! VariableDeclaration) {
+      return;
+    }
+
+    final equatableClassDeclaration = node
+        .thisOrAncestorOfType<ClassDeclaration>();
+    if (equatableClassDeclaration == null) {
+      return;
+    }
+
+    final missingVariablesNamesInProps =
+        getAllNonEquatableVariablesFromClassDeclaration(
+          equatableClassDeclaration,
+        ).map((variable) => variable.name.lexeme);
+
+    if (missingVariablesNamesInProps.length == 1) {
+      // Early return:
+      // There is already a lint fix to add a single field to props.
+      // No need to add a second one.
+      return;
+    }
+
+    await _buildNewEquatablePropsFromMissingVariables(
+      builder: builder,
+      node: node,
+      file: file,
+      missingVariablesNamesInProps: [...missingVariablesNamesInProps],
+    );
+  }
+}

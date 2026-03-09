@@ -1,3 +1,6 @@
+// Need this for some examples
+// ignore_for_file: avoid_multiple_declarations_per_line
+
 import 'package:equatable/equatable.dart';
 
 class FieldNotInPropsGetterExample extends Equatable {
