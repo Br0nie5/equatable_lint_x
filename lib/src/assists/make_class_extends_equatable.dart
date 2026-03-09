@@ -45,6 +45,36 @@ class MakeClassExtendEquatable extends ResolvedCorrectionProducer {
       return;
     }
 
+    final allImportsDirectives = node.root.childEntities
+        .whereType<ImportDirective>()
+        .toList();
+    final isEquatablePackageAlreadyImported = allImportsDirectives
+        .where(
+          (importDirective) =>
+              importDirective.libraryImport?.importedLibrary?.identifier ==
+              EquatableConst.packageIdentifier,
+        )
+        .isNotEmpty;
+    if (!isEquatablePackageAlreadyImported) {
+      final lastImportDirective = allImportsDirectives.lastOrNull;
+
+      if (lastImportDirective != null) {
+        await builder.addDartFileEdit(file, (fileBuilder) {
+          fileBuilder.addReplacement(SourceRange(lastImportDirective.end, 0), (
+            builder,
+          ) {
+            builder.write("\nimport '${EquatableConst.packageIdentifier}';");
+          });
+        });
+      } else {
+        await builder.addDartFileEdit(file, (fileBuilder) {
+          fileBuilder.addReplacement(SourceRange.EMPTY, (builder) {
+            builder.write("import '${EquatableConst.packageIdentifier}';\n\n");
+          });
+        });
+      }
+    }
+
     await builder.addDartFileEdit(file, (fileBuilder) {
       fileBuilder.addReplacement(SourceRange(node.name.end, 0), (builder) {
         builder.write(' extends ${EquatableConst.className}');
@@ -64,3 +94,5 @@ class MakeClassExtendEquatable extends ResolvedCorrectionProducer {
     });
   }
 }
+
+// node.root.childEntities[0].libraryImport.importedLibrary.identifier

@@ -11,4 +11,7 @@ class EquatableConst {
 
   /// Equatable package displayName
   static const packageName = 'equatable';
+
+  /// Equatable package identifier
+  static const packageIdentifier = 'package:$packageName/$packageName.dart';
 }
