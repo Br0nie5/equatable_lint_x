@@ -1,0 +1,66 @@
+import 'package:analysis_server_plugin/edit/dart/correction_producer.dart';
+import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/source/source_range.dart';
+import 'package:analyzer_plugin/utilities/assist/assist.dart';
+import 'package:analyzer_plugin/utilities/change_builder/change_builder_core.dart';
+import 'package:equatable_lint_x/src/constants/equatable_constants.dart';
+import 'package:equatable_lint_x/src/lints/always_call_super_props_when_overriding_equatable_props.dart';
+import 'package:equatable_lint_x/src/utils/get_all_extend_classes_and_mixins.dart';
+import 'package:equatable_lint_x/src/utils/get_all_non_equatable_variables_from_class_declaration.dart';
+
+/// Fix resolver for lint[AlwaysCallSuperPropsWhenOverridingEquatableProps].
+/// Help make a class extends Equatable.
+class MakeClassExtendEquatable extends ResolvedCorrectionProducer {
+  /// [MakeClassExtendEquatable] constructor.
+  MakeClassExtendEquatable({required super.context});
+
+  @override
+  AssistKind get assistKind => const AssistKind(
+    'make_class_extends_equatable',
+    50,
+    'Make class extends ${EquatableConst.className}',
+  );
+
+  @override
+  CorrectionApplicability get applicability =>
+      CorrectionApplicability.singleLocation;
+
+  @override
+  Future<void> compute(ChangeBuilder builder) async {
+    final node = this.node;
+    if (node is! ClassDeclaration) {
+      return;
+    }
+
+    final nodeAllExtendClassesAndMixin = getAllExtendClassesAndMixins(node);
+    final doesExtendOrMixinEquatable =
+        nodeAllExtendClassesAndMixin.contains(EquatableConst.className) ||
+        nodeAllExtendClassesAndMixin.contains(EquatableConst.mixinName);
+    if (doesExtendOrMixinEquatable) {
+      return;
+    }
+
+    final isClassAlreadyExtendingSomething = node.extendsClause != null;
+    if (isClassAlreadyExtendingSomething) {
+      return;
+    }
+
+    await builder.addDartFileEdit(file, (fileBuilder) {
+      fileBuilder.addReplacement(SourceRange(node.name.end, 0), (builder) {
+        builder.write(' extends ${EquatableConst.className}');
+      });
+    });
+
+    final allClassVariables = getAllNonEquatableVariablesFromClassDeclaration(
+      node,
+    ).map((variable) => variable.name.lexeme);
+
+    await builder.addDartFileEdit(file, (fileBuilder) {
+      fileBuilder.addReplacement(SourceRange(node.end - 1, 0), (builder) {
+        builder.write(
+          '''\n\t@override\n\tList<Object?> get props => [${allClassVariables.join(', ')}];\n''',
+        );
+      });
+    });
+  }
+}
