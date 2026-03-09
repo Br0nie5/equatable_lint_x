@@ -7,7 +7,7 @@ import 'package:equatable_lint_x/src/constants/equatable_constants.dart';
 import 'package:equatable_lint_x/src/lints/always_call_super_props_when_overriding_equatable_props.dart';
 import 'package:equatable_lint_x/src/utils/node_source_range_extension.dart';
 
-/// Fix resolver for lint[AlwaysCallSuperPropsWhenOverridingEquatableProps].
+/// Fix resolver for lint [AlwaysCallSuperPropsWhenOverridingEquatableProps].
 /// Call super.props in the equatable props field or getter.
 class CallSuperPropsWhenOverridingEquatableProps
     extends ResolvedCorrectionProducer {

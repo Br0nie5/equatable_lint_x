@@ -1,6 +1,6 @@
 import 'package:analysis_server_plugin/plugin.dart';
 import 'package:analysis_server_plugin/registry.dart';
-import 'package:equatable_lint_x/src/assists/make_class_extends_equatable.dart';
+import 'package:equatable_lint_x/src/assists/make_class_use_equatable.dart';
 import 'package:equatable_lint_x/src/fixes/always_call_super_props_when_overriding_equatable_props.dart';
 import 'package:equatable_lint_x/src/fixes/missing_field_in_equatable_props.dart';
 import 'package:equatable_lint_x/src/lints/always_call_super_props_when_overriding_equatable_props.dart';
@@ -34,5 +34,6 @@ class _EquatablePlugin extends Plugin {
     );
 
     registry.registerAssist(MakeClassExtendEquatable.new);
+    registry.registerAssist(MakeClassWithEquatableMixin.new);
   }
 }

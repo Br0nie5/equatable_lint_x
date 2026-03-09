@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 
 // Should not show any lint or fixes for this class
-// Should show an assist to make this class extends Equatable
 class NotEquatableClass {
   const NotEquatableClass({this.field});
 
