@@ -81,10 +81,20 @@ class AddAllMissingFieldInEquatablePropsFix extends ResolvedCorrectionProducer {
       return;
     }
 
+    final variablesNamesInEquatableProps = getEquatablePropsArrayElements(
+      equatableClassDeclaration,
+    );
+
     final missingVariablesNamesInProps =
         getAllNonEquatableVariablesFromClassDeclaration(
-          equatableClassDeclaration,
-        ).map((variable) => variable.name.lexeme);
+              equatableClassDeclaration,
+            )
+            .map((variable) => variable.name.lexeme)
+            .where(
+              (variableName) =>
+                  !variablesNamesInEquatableProps.contains(variableName),
+            )
+            .toList();
 
     if (missingVariablesNamesInProps.length == 1) {
       // Early return:
@@ -95,7 +105,7 @@ class AddAllMissingFieldInEquatablePropsFix extends ResolvedCorrectionProducer {
 
     await buildNewEquatablePropsFromMissingVariables(
       builder: builder,
-      missingVariablesNamesInProps: [...missingVariablesNamesInProps],
+      missingVariablesNamesInProps: missingVariablesNamesInProps,
     );
   }
 }
