@@ -10,6 +10,11 @@ abstract class Equatable {
 
   List<Object?> get props;
 }
+
+@immutable
+mixin EquatableMixin {
+  List<Object?> get props;
+}
 ''');
   }
 }

@@ -1,8 +1,7 @@
-import 'package:analyzer_testing/analysis_rule/analysis_rule.dart';
 import 'package:equatable_lint_x/src/lints/always_call_super_props_when_overriding_equatable_props.dart';
 import 'package:test_reflective_loader/test_reflective_loader.dart';
 
-import '../../utils/mocks.dart';
+import '''always_call_super_props_when_overriding_equatable_props_analysis_rule.dart''';
 
 void main() {
   defineReflectiveSuite(
@@ -11,29 +10,17 @@ void main() {
         AlwaysCallSuperPropsWhenOverridingEquatablePropsTestGetterCases,
       );
     },
-    name: 'Equatable props getter cases group',
-  );
-  defineReflectiveSuite(
-    () {
-      defineReflectiveTests(
-        AlwaysCallSuperPropsWhenOverridingEquatablePropsTestFieldCases,
-      );
-    },
-    name: 'Equatable props field cases group',
+    name:
+        'Always call super props when overriding equatable props getter cases '
+        'test group',
   );
 }
 
 @reflectiveTest
 class AlwaysCallSuperPropsWhenOverridingEquatablePropsTestGetterCases
-    extends AnalysisRuleTest {
-  @override
-  void setUp() {
-    setEquatablePackageMock();
-    rule = AlwaysCallSuperPropsWhenOverridingEquatableProps();
-    super.setUp();
-  }
-
-  /// Should show a lint if a variable is not in equatable props getter
+    extends AlwaysCallSuperPropsWhenOverridingEquatablePropsAnalysisRuleTest {
+  /// Should show a lint if a class has Equatable as a superclass but its props
+  /// getter doesn't call super.props
   Future<void> test_case_1() async {
     await assertDiagnostics(
       '''
@@ -60,35 +47,27 @@ class EquatableTestClass extends BaseEquatableTestClass {
           303,
           47,
           correctionContains: AlwaysCallSuperPropsWhenOverridingEquatableProps
-              .code.correctionMessage,
+              .code
+              .correctionMessage,
           messageContainsAll: [
             AlwaysCallSuperPropsWhenOverridingEquatableProps
-                .code.problemMessage,
+                .code
+                .problemMessage,
           ],
           name: AlwaysCallSuperPropsWhenOverridingEquatableProps.code.name,
         ),
       ],
     );
   }
-}
 
-@reflectiveTest
-class AlwaysCallSuperPropsWhenOverridingEquatablePropsTestFieldCases
-    extends AnalysisRuleTest {
-  @override
-  void setUp() {
-    setEquatablePackageMock();
-    rule = AlwaysCallSuperPropsWhenOverridingEquatableProps();
-    super.setUp();
-  }
-
-  /// Should show a lint if a variable is not in equatable props getter
-  Future<void> test_case_1() async {
+  /// Should show a lint if a class has a superclass with EquatableMixin but its
+  /// props getter doesn't call super.props
+  Future<void> test_case_2() async {
     await assertDiagnostics(
       '''
 import 'package:equatable/equatable.dart';
 
-class BaseEquatableTestClass extends Equatable {
+class BaseEquatableTestClass with EquatableMixin {
   const BaseEquatableTestClass();
 
   @override
@@ -96,23 +75,25 @@ class BaseEquatableTestClass extends Equatable {
 }
 
 class EquatableTestClass extends BaseEquatableTestClass {
-  EquatableTestClass({this.field});
+  const EquatableTestClass({this.field});
 
   final String? field;
 
   @override
-  late final List<Object?> props = [field];
+  List<Object?> get props => [field];
 }
 ''',
       [
         lint(
-          297,
-          53,
+          305,
+          47,
           correctionContains: AlwaysCallSuperPropsWhenOverridingEquatableProps
-              .code.correctionMessage,
+              .code
+              .correctionMessage,
           messageContainsAll: [
             AlwaysCallSuperPropsWhenOverridingEquatableProps
-                .code.problemMessage,
+                .code
+                .problemMessage,
           ],
           name: AlwaysCallSuperPropsWhenOverridingEquatableProps.code.name,
         ),

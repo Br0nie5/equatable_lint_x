@@ -6,7 +6,7 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/error/error.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable_lint_x/src/constants/equatable_constants.dart';
-import 'package:equatable_lint_x/src/utils/get_all_super_classes.dart';
+import 'package:equatable_lint_x/src/utils/get_all_extend_classes_and_mixins.dart';
 import 'package:equatable_lint_x/src/utils/get_equatable_props_array_elements.dart';
 
 /// [MissingFieldInEquatableProps] analysis rule that look for any class that
@@ -47,8 +47,11 @@ class _Visitor extends SimpleAstVisitor<void> {
 
   @override
   void visitClassDeclaration(ClassDeclaration node) {
-    final nodeSuperClasses = getAllSuperClasses(node);
-    if (!nodeSuperClasses.contains(EquatableConst.className)) {
+    final nodeAllExtendClassesAndMixin = getAllExtendClassesAndMixins(node);
+    final doesExtendOrMixinEquatable =
+        nodeAllExtendClassesAndMixin.contains(EquatableConst.className) ||
+        nodeAllExtendClassesAndMixin.contains(EquatableConst.mixinName);
+    if (!doesExtendOrMixinEquatable) {
       return;
     }
 

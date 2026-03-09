@@ -6,6 +6,9 @@ class EquatableConst {
   /// Equatable class displayName
   static const className = 'Equatable';
 
+  /// Equatable mixin displayName
+  static const mixinName = 'EquatableMixin';
+
   /// Equatable package displayName
   static const packageName = 'equatable';
 }
