@@ -43,5 +43,9 @@ jobs:
       - name: Activate pana pub package to compute package score
         run: dart pub global activate pana
 
+      # It will always need a threshold of 10 since analyser is always
+      # ahead of flutter in terms of versions.
+      # So we lose points because we are not compatible with the latest
+      # versions.
       - name: Check package score
         run: pana --exit-code-threshold=10
