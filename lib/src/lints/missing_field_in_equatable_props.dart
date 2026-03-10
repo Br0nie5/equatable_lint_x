@@ -5,6 +5,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/error/error.dart';
 import 'package:equatable_lint_x/src/constants/equatable_constants.dart';
+import 'package:equatable_lint_x/src/constants/package_constants.dart';
 import 'package:equatable_lint_x/src/utils/get_all_non_equatable_variables_from_class_declaration.dart';
 import 'package:equatable_lint_x/src/utils/get_equatable_props_array_elements.dart';
 import 'package:equatable_lint_x/src/utils/has_equatable_ancestor.dart';
@@ -17,12 +18,18 @@ class MissingFieldInEquatableProps extends AnalysisRule {
   MissingFieldInEquatableProps()
     : super(name: code.name, description: code.problemMessage);
 
+  static const _lintCodeName =
+      '''missing_field_in_${EquatableConst.packageName}_${EquatableConst.propsFieldName}''';
+
   /// [LintCode] defined for [MissingFieldInEquatableProps] rule.
   static const code = LintCode(
-    '''missing_field_in_${EquatableConst.packageName}_${EquatableConst.propsFieldName}''',
-    '''Dart class extending ${EquatableConst.className} must contain each field inside its ${EquatableConst.propsFieldName} field override.''',
+    _lintCodeName,
+    'Dart class extending ${EquatableConst.className} must contain each field '
+    'inside its ${EquatableConst.propsFieldName} field override.',
     correctionMessage:
-        '''You should add this field to the ${EquatableConst.packageName} ${EquatableConst.propsFieldName} field.''',
+        'You should add this field to the ${EquatableConst.packageName} '
+        '${EquatableConst.propsFieldName} field.\n\n'
+        'See ${EquatableLintXRepoConst.githubLintCodeBaseUrl}$_lintCodeName',
     severity: DiagnosticSeverity.WARNING,
   );
 

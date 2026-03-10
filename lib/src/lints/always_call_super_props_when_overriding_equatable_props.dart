@@ -5,6 +5,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/error/error.dart';
 import 'package:equatable_lint_x/src/constants/equatable_constants.dart';
+import 'package:equatable_lint_x/src/constants/package_constants.dart';
 import 'package:equatable_lint_x/src/utils/get_equatable_props_node.dart';
 import 'package:equatable_lint_x/src/utils/has_equatable_ancestor.dart';
 
@@ -16,13 +17,21 @@ class AlwaysCallSuperPropsWhenOverridingEquatableProps extends AnalysisRule {
   AlwaysCallSuperPropsWhenOverridingEquatableProps()
     : super(name: code.name, description: code.problemMessage);
 
+  static const _lintCodeName =
+      '''always_call_super_${EquatableConst.propsFieldName}_when_overriding_${EquatableConst.packageName}_${EquatableConst.propsFieldName}''';
+
   /// [LintCode] defined for [AlwaysCallSuperPropsWhenOverridingEquatableProps]
   /// rule.
   static const code = LintCode(
-    '''always_call_super_${EquatableConst.propsFieldName}_when_overriding_${EquatableConst.packageName}_${EquatableConst.propsFieldName}''',
-    '''Dart class extending a class that extends ${EquatableConst.className} should not forget to call super.${EquatableConst.propsFieldName} when overriding ${EquatableConst.packageName} ${EquatableConst.propsFieldName}.''',
+    _lintCodeName,
+    'Dart class extending a class that extends ${EquatableConst.className} '
+    'should not forget to call super.${EquatableConst.propsFieldName} when '
+    'overriding ${EquatableConst.packageName} '
+    '${EquatableConst.propsFieldName}.',
     correctionMessage:
-        '''You should add all your fields to the super.${EquatableConst.propsFieldName} array.''',
+        'You should add all your fields to the super.'
+        '${EquatableConst.propsFieldName} array.\n\n'
+        'See ${EquatableLintXRepoConst.githubLintCodeBaseUrl}$_lintCodeName',
     severity: DiagnosticSeverity.WARNING,
   );
 
