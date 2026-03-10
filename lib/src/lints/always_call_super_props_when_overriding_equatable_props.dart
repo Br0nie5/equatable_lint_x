@@ -5,8 +5,8 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/error/error.dart';
 import 'package:equatable_lint_x/src/constants/equatable_constants.dart';
-import 'package:equatable_lint_x/src/utils/get_all_extend_classes_and_mixins.dart';
 import 'package:equatable_lint_x/src/utils/get_equatable_props_node.dart';
+import 'package:equatable_lint_x/src/utils/has_equatable_ancestor.dart';
 
 /// [AlwaysCallSuperPropsWhenOverridingEquatableProps] analysis rule that look
 /// for any class that extend a class extending Equatable and don't call
@@ -47,30 +47,11 @@ class _Visitor extends SimpleAstVisitor<void> {
 
   @override
   void visitClassDeclaration(ClassDeclaration node) {
-    final isDirectlyExtendingEquatable =
-        node.extendsClause?.superclass.name.lexeme == EquatableConst.className;
+    final hasEquatableDirectAncestor = getHasDirectEquatableAncestor(node);
 
-    final isDirectlyWithEquatableMixin =
-        node.withClause?.childEntities
-            .where(
-              (child) =>
-                  child is NamedType &&
-                  child.name.lexeme == EquatableConst.mixinName,
-            )
-            .isNotEmpty ??
-        false;
+    final hasEquatableAncestor = getHasEquatableAncestor(node);
 
-    final isDirectlyExtendingOrMixinEquatable =
-        isDirectlyExtendingEquatable || isDirectlyWithEquatableMixin;
-
-    final nodeAllExtendClassesAndMixins = getAllExtendClassesAndMixins(node);
-
-    final superClassDoesExtendOrMixinEquatable =
-        nodeAllExtendClassesAndMixins.contains(EquatableConst.className) ||
-        nodeAllExtendClassesAndMixins.contains(EquatableConst.mixinName);
-
-    if (isDirectlyExtendingOrMixinEquatable ||
-        !superClassDoesExtendOrMixinEquatable) {
+    if (hasEquatableDirectAncestor || !hasEquatableAncestor) {
       return;
     }
 

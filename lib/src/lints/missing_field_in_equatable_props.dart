@@ -5,9 +5,9 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/error/error.dart';
 import 'package:equatable_lint_x/src/constants/equatable_constants.dart';
-import 'package:equatable_lint_x/src/utils/get_all_extend_classes_and_mixins.dart';
 import 'package:equatable_lint_x/src/utils/get_all_non_equatable_variables_from_class_declaration.dart';
 import 'package:equatable_lint_x/src/utils/get_equatable_props_array_elements.dart';
+import 'package:equatable_lint_x/src/utils/has_equatable_ancestor.dart';
 
 /// [MissingFieldInEquatableProps] analysis rule that look for any class that
 /// extend Equatable and don't put all its fiels inside the equatable props
@@ -47,13 +47,9 @@ class _Visitor extends SimpleAstVisitor<void> {
 
   @override
   void visitClassDeclaration(ClassDeclaration node) {
-    final nodeAllExtendClassesAndMixin = getAllExtendClassesAndMixins(node);
+    final hasEquatableAncestor = getHasEquatableAncestor(node);
 
-    final doesExtendOrMixinEquatable =
-        nodeAllExtendClassesAndMixin.contains(EquatableConst.className) ||
-        nodeAllExtendClassesAndMixin.contains(EquatableConst.mixinName);
-
-    if (!doesExtendOrMixinEquatable) {
+    if (!hasEquatableAncestor) {
       return;
     }
 

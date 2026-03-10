@@ -4,8 +4,8 @@ import 'package:analyzer/source/source_range.dart';
 import 'package:analyzer_plugin/utilities/assist/assist.dart';
 import 'package:analyzer_plugin/utilities/change_builder/change_builder_core.dart';
 import 'package:equatable_lint_x/src/constants/equatable_constants.dart';
-import 'package:equatable_lint_x/src/utils/get_all_extend_classes_and_mixins.dart';
 import 'package:equatable_lint_x/src/utils/get_all_non_equatable_variables_from_class_declaration.dart';
+import 'package:equatable_lint_x/src/utils/has_equatable_ancestor.dart';
 
 /// Assist resolver that make a non Equatable class extends Equatable.
 class MakeClassExtendEquatable extends ResolvedCorrectionProducer {
@@ -30,13 +30,9 @@ class MakeClassExtendEquatable extends ResolvedCorrectionProducer {
       return;
     }
 
-    final nodeAllExtendClassesAndMixin = getAllExtendClassesAndMixins(node);
+    final hasEquatableAncestor = getHasEquatableAncestor(node);
 
-    final doesExtendOrMixinEquatable =
-        nodeAllExtendClassesAndMixin.contains(EquatableConst.className) ||
-        nodeAllExtendClassesAndMixin.contains(EquatableConst.mixinName);
-
-    if (doesExtendOrMixinEquatable) {
+    if (hasEquatableAncestor) {
       return;
     }
 
@@ -81,13 +77,9 @@ class MakeClassWithEquatableMixin extends ResolvedCorrectionProducer {
       return;
     }
 
-    final nodeAllExtendClassesAndMixin = getAllExtendClassesAndMixins(node);
+    final hasEquatableAncestor = getHasEquatableAncestor(node);
 
-    final doesExtendOrMixinEquatable =
-        nodeAllExtendClassesAndMixin.contains(EquatableConst.className) ||
-        nodeAllExtendClassesAndMixin.contains(EquatableConst.mixinName);
-
-    if (doesExtendOrMixinEquatable) {
+    if (hasEquatableAncestor) {
       return;
     }
 

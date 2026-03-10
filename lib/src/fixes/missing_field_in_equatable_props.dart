@@ -9,6 +9,7 @@ import 'package:equatable_lint_x/src/lints/missing_field_in_equatable_props.dart
 import 'package:equatable_lint_x/src/utils/get_all_non_equatable_variables_from_class_declaration.dart';
 import 'package:equatable_lint_x/src/utils/get_equatable_props_array_elements.dart';
 import 'package:equatable_lint_x/src/utils/get_equatable_props_node.dart';
+import 'package:equatable_lint_x/src/utils/has_equatable_ancestor.dart';
 import 'package:equatable_lint_x/src/utils/node_source_range_extension.dart';
 
 /// Fix resolver for lint [MissingFieldInEquatableProps].
@@ -158,12 +159,20 @@ extension _AddMissingFieldInEquatablePropsFixExtension
         });
       });
     } else {
+      final hasEquatableDirectAncestor = getHasDirectEquatableAncestor(
+        equatableClassDeclaration,
+      );
+
+      final propsValueString = hasEquatableDirectAncestor
+          ? allVariablesInPropsString
+          : '''super.${EquatableConst.propsFieldName}..addAll($allVariablesInPropsString)''';
+
       await builder.addDartFileEdit(file, (fileBuilder) {
         fileBuilder.addReplacement(
           SourceRange(equatableClassDeclaration.end - 1, 0),
           (builder) {
             builder.write(
-              '''\n\t@override\n\tList<Object?> get ${EquatableConst.propsFieldName} => super.${EquatableConst.propsFieldName}..addAll($allVariablesInPropsString);\n''',
+              '''\n\t@override\n\tList<Object?> get ${EquatableConst.propsFieldName} => $propsValueString;\n''',
             );
           },
         );
