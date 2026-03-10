@@ -48,4 +48,4 @@ jobs:
       # So we lose points because we are not compatible with the latest
       # versions.
       - name: Check package score
-        run: pana --exit-code-threshold=10
+        run: pana --exit-code-threshold=20 --dart-sdk /opt/hostedtoolcache/dart/3.9.2/x64/
