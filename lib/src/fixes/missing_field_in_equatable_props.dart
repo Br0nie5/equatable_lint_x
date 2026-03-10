@@ -39,9 +39,24 @@ class AddMissingFieldInEquatablePropsFix extends ResolvedCorrectionProducer {
       return;
     }
 
+    final equatableClassDeclaration = node
+        .thisOrAncestorOfType<ClassDeclaration>();
+    if (equatableClassDeclaration == null) {
+      return;
+    }
+
+    final variablesNamesInEquatableProps = getEquatablePropsArrayElements(
+      equatableClassDeclaration,
+    );
+
     await buildNewEquatablePropsFromMissingVariables(
-      builder: builder,
-      missingVariablesNamesInProps: [node.name.lexeme],
+      builder,
+      node: node,
+      allVariablesNeededInProps: [
+        ...variablesNamesInEquatableProps,
+        node.name.lexeme,
+      ],
+      equatableClassDeclaration: equatableClassDeclaration,
     );
   }
 }
@@ -99,42 +114,35 @@ class AddAllMissingFieldInEquatablePropsFix extends ResolvedCorrectionProducer {
     if (missingVariablesNamesInProps.length == 1) {
       // Early return:
       // There is already a lint fix to add a single field to props.
-      // No need to add a second one.
       return;
     }
 
+    final allVariablesNeededInProps = [
+      ...variablesNamesInEquatableProps,
+      ...missingVariablesNamesInProps,
+    ];
+
     await buildNewEquatablePropsFromMissingVariables(
-      builder: builder,
-      missingVariablesNamesInProps: missingVariablesNamesInProps,
+      builder,
+      node: node,
+      allVariablesNeededInProps: allVariablesNeededInProps,
+      equatableClassDeclaration: equatableClassDeclaration,
     );
   }
 }
 
 extension _AddMissingFieldInEquatablePropsFixExtension
     on ResolvedCorrectionProducer {
-  Future<void> buildNewEquatablePropsFromMissingVariables({
-    required ChangeBuilder builder,
-    required List<String> missingVariablesNamesInProps,
+  Future<void> buildNewEquatablePropsFromMissingVariables(
+    ChangeBuilder builder, {
+    required VariableDeclaration node,
+    required List<String> allVariablesNeededInProps,
+    required ClassDeclaration equatableClassDeclaration,
   }) async {
-    final node = this.node;
-    if (node is! VariableDeclaration) {
-      return;
-    }
-
-    final equatableClassDeclaration = node
-        .thisOrAncestorOfType<ClassDeclaration>();
-    if (equatableClassDeclaration == null) {
-      return;
-    }
-
-    final variablesNamesInEquatableProps = getEquatablePropsArrayElements(
-      equatableClassDeclaration,
-    );
-
     final allVariablesInPropsString =
-        '''[${[...variablesNamesInEquatableProps, ...missingVariablesNamesInProps].join(', ')}]''';
+        '[${allVariablesNeededInProps.join(', ')}]';
 
-    final AstNode? equatablePropsNode =
+    final equatablePropsNode =
         getEquatablePropsGetterNode(equatableClassDeclaration) ??
         getEquatablePropsFieldNode(equatableClassDeclaration);
 
@@ -155,7 +163,7 @@ extension _AddMissingFieldInEquatablePropsFixExtension
           SourceRange(equatableClassDeclaration.end - 1, 0),
           (builder) {
             builder.write(
-              '''\n\t@override\n\tList<Object?> get props => super.props..addAll($allVariablesInPropsString);\n''',
+              '''\n\t@override\n\tList<Object?> get ${EquatableConst.propsFieldName} => super.${EquatableConst.propsFieldName}..addAll($allVariablesInPropsString);\n''',
             );
           },
         );

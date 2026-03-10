@@ -9,12 +9,6 @@ List<String> getEquatablePropsArrayElements(ClassDeclaration node) {
     node,
   )?.childEntities.whereType<ExpressionFunctionBody>().firstOrNull;
 
-  if (equatablePropsGetterArrayElements != null) {
-    return parseArrayElementsFromString(
-      equatablePropsGetterArrayElements.toString(),
-    );
-  }
-
   final equatablePropsVariableArrayElements = getEquatablePropsFieldNode(node)
       ?.childEntities
       .whereType<VariableDeclarationList>()
@@ -23,10 +17,11 @@ List<String> getEquatablePropsArrayElements(ClassDeclaration node) {
       .whereType<VariableDeclaration>()
       .firstOrNull;
 
-  if (equatablePropsVariableArrayElements != null) {
-    return parseArrayElementsFromString(
-      equatablePropsVariableArrayElements.toString(),
-    );
+  final equatablePropsArrayElements =
+      equatablePropsGetterArrayElements ?? equatablePropsVariableArrayElements;
+
+  if (equatablePropsArrayElements != null) {
+    return parseArrayElementsFromString(equatablePropsArrayElements.toString());
   }
 
   return [];

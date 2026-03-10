@@ -31,6 +31,7 @@ class CallSuperPropsWhenOverridingEquatableProps
   @override
   Future<void> compute(ChangeBuilder builder) async {
     final node = this.node;
+
     if (node is MethodDeclaration) {
       await builder.addDartFileEdit(file, (fileBuilder) {
         fileBuilder.addReplacement(node.sourceRange, (builder) {
@@ -38,8 +39,9 @@ class CallSuperPropsWhenOverridingEquatableProps
             node
                 .toString()
                 .replaceFirstMapped(
-                  RegExp('(get props => )(.*?);'),
-                  (m) => 'get props => super.props..addAll(${m[2]});',
+                  RegExp('(get ${EquatableConst.propsFieldName} => )(.*?);'),
+                  (m) =>
+                      '''get ${EquatableConst.propsFieldName} => super.${EquatableConst.propsFieldName}..addAll(${m[2]});''',
                 )
                 .replaceAll('@override ', '@override\n\t'),
           );
@@ -52,8 +54,9 @@ class CallSuperPropsWhenOverridingEquatableProps
             node
                 .toString()
                 .replaceFirstMapped(
-                  RegExp('(props = )(.*?);'),
-                  (m) => 'props = super.props..addAll(${m[2]});',
+                  RegExp('(${EquatableConst.propsFieldName} = )(.*?);'),
+                  (m) =>
+                      '''${EquatableConst.propsFieldName} = super.${EquatableConst.propsFieldName}..addAll(${m[2]});''',
                 )
                 .replaceAll('@override ', '@override\n\t'),
           );

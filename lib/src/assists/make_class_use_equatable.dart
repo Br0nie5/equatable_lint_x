@@ -14,7 +14,7 @@ class MakeClassExtendEquatable extends ResolvedCorrectionProducer {
 
   @override
   AssistKind get assistKind => const AssistKind(
-    'make_class_extends_equatable',
+    'make_class_extends_${EquatableConst.packageName}',
     50,
     'Make class extends ${EquatableConst.className}',
   );
@@ -31,14 +31,17 @@ class MakeClassExtendEquatable extends ResolvedCorrectionProducer {
     }
 
     final nodeAllExtendClassesAndMixin = getAllExtendClassesAndMixins(node);
+
     final doesExtendOrMixinEquatable =
         nodeAllExtendClassesAndMixin.contains(EquatableConst.className) ||
         nodeAllExtendClassesAndMixin.contains(EquatableConst.mixinName);
+
     if (doesExtendOrMixinEquatable) {
       return;
     }
 
     final isClassAlreadyExtendingSomething = node.extendsClause != null;
+
     if (isClassAlreadyExtendingSomething) {
       return;
     }
@@ -51,20 +54,20 @@ class MakeClassExtendEquatable extends ResolvedCorrectionProducer {
       });
     });
 
-    await addEquatablePropsGetter(builder);
+    await addEquatablePropsGetter(builder, node: node);
   }
 }
 
-/// Assist resolver that make a non Equatable class with EquatableMixin.
+/// Assist resolver that make a non Equatable class use EquatableMixin.
 class MakeClassWithEquatableMixin extends ResolvedCorrectionProducer {
   /// [MakeClassWithEquatableMixin] constructor.
   MakeClassWithEquatableMixin({required super.context});
 
   @override
   AssistKind get assistKind => const AssistKind(
-    'make_class_with_equatable_mixin',
+    'make_class_with_${EquatableConst.packageName}_mixin',
     50,
-    'Make class with ${EquatableConst.mixinName}',
+    'Make class use ${EquatableConst.mixinName}',
   );
 
   @override
@@ -79,9 +82,11 @@ class MakeClassWithEquatableMixin extends ResolvedCorrectionProducer {
     }
 
     final nodeAllExtendClassesAndMixin = getAllExtendClassesAndMixins(node);
+
     final doesExtendOrMixinEquatable =
         nodeAllExtendClassesAndMixin.contains(EquatableConst.className) ||
         nodeAllExtendClassesAndMixin.contains(EquatableConst.mixinName);
+
     if (doesExtendOrMixinEquatable) {
       return;
     }
@@ -90,29 +95,7 @@ class MakeClassWithEquatableMixin extends ResolvedCorrectionProducer {
 
     final classWithClause = node.withClause;
 
-    if (classWithClause == null) {
-      final classExtendsClause = node.extendsClause;
-
-      if (classExtendsClause == null) {
-        await builder.addDartFileEdit(file, (fileBuilder) {
-          fileBuilder.addReplacement(SourceRange(node.name.end, 0), (builder) {
-            builder.write(' with ${EquatableConst.mixinName}');
-          });
-        });
-
-        await addEquatablePropsGetter(builder);
-      } else {
-        await builder.addDartFileEdit(file, (fileBuilder) {
-          fileBuilder.addReplacement(SourceRange(classExtendsClause.end, 0), (
-            builder,
-          ) {
-            builder.write(' with ${EquatableConst.mixinName}');
-          });
-        });
-
-        await addEquatablePropsGetter(builder);
-      }
-    } else {
+    if (classWithClause != null) {
       await builder.addDartFileEdit(file, (fileBuilder) {
         fileBuilder.addReplacement(SourceRange(classWithClause.end, 0), (
           builder,
@@ -121,7 +104,31 @@ class MakeClassWithEquatableMixin extends ResolvedCorrectionProducer {
         });
       });
 
-      await addEquatablePropsGetter(builder);
+      await addEquatablePropsGetter(builder, node: node);
+
+      return;
+    }
+
+    final classExtendsClause = node.extendsClause;
+
+    if (classExtendsClause == null) {
+      await builder.addDartFileEdit(file, (fileBuilder) {
+        fileBuilder.addReplacement(SourceRange(node.name.end, 0), (builder) {
+          builder.write(' with ${EquatableConst.mixinName}');
+        });
+      });
+
+      await addEquatablePropsGetter(builder, node: node);
+    } else {
+      await builder.addDartFileEdit(file, (fileBuilder) {
+        fileBuilder.addReplacement(SourceRange(classExtendsClause.end, 0), (
+          builder,
+        ) {
+          builder.write(' with ${EquatableConst.mixinName}');
+        });
+      });
+
+      await addEquatablePropsGetter(builder, node: node);
     }
   }
 }
@@ -129,9 +136,11 @@ class MakeClassWithEquatableMixin extends ResolvedCorrectionProducer {
 extension _MakeClassUseEquatable on ResolvedCorrectionProducer {
   Future<void> addEquatableImportConditionally(ChangeBuilder builder) async {
     final node = this.node;
+
     final allImportsDirectives = node.root.childEntities
         .whereType<ImportDirective>()
         .toList();
+
     final isEquatablePackageAlreadyImported = allImportsDirectives
         .where(
           (importDirective) =>
@@ -139,33 +148,34 @@ extension _MakeClassUseEquatable on ResolvedCorrectionProducer {
               EquatableConst.packageIdentifier,
         )
         .isNotEmpty;
-    if (!isEquatablePackageAlreadyImported) {
-      final lastImportDirective = allImportsDirectives.lastOrNull;
 
-      if (lastImportDirective != null) {
-        await builder.addDartFileEdit(file, (fileBuilder) {
-          fileBuilder.addReplacement(SourceRange(lastImportDirective.end, 0), (
-            builder,
-          ) {
-            builder.write("\nimport '${EquatableConst.packageIdentifier}';");
-          });
-        });
-      } else {
-        await builder.addDartFileEdit(file, (fileBuilder) {
-          fileBuilder.addReplacement(SourceRange.EMPTY, (builder) {
-            builder.write("import '${EquatableConst.packageIdentifier}';\n\n");
-          });
-        });
-      }
-    }
-  }
-
-  Future<void> addEquatablePropsGetter(ChangeBuilder builder) async {
-    final node = this.node;
-    if (node is! ClassDeclaration) {
+    if (isEquatablePackageAlreadyImported) {
       return;
     }
 
+    final lastImportDirective = allImportsDirectives.lastOrNull;
+
+    if (lastImportDirective != null) {
+      await builder.addDartFileEdit(file, (fileBuilder) {
+        fileBuilder.addReplacement(SourceRange(lastImportDirective.end, 0), (
+          builder,
+        ) {
+          builder.write("\nimport '${EquatableConst.packageIdentifier}';");
+        });
+      });
+    } else {
+      await builder.addDartFileEdit(file, (fileBuilder) {
+        fileBuilder.addReplacement(SourceRange.EMPTY, (builder) {
+          builder.write("import '${EquatableConst.packageIdentifier}';\n\n");
+        });
+      });
+    }
+  }
+
+  Future<void> addEquatablePropsGetter(
+    ChangeBuilder builder, {
+    required ClassDeclaration node,
+  }) async {
     final allClassVariables = getAllNonEquatableVariablesFromClassDeclaration(
       node,
     ).map((variable) => variable.name.lexeme);
@@ -173,7 +183,7 @@ extension _MakeClassUseEquatable on ResolvedCorrectionProducer {
     await builder.addDartFileEdit(file, (fileBuilder) {
       fileBuilder.addReplacement(SourceRange(node.end - 1, 0), (builder) {
         builder.write(
-          '''\n\t@override\n\tList<Object?> get props => [${allClassVariables.join(', ')}];\n''',
+          '''\n\t@override\n\tList<Object?> get ${EquatableConst.propsFieldName} => [${allClassVariables.join(', ')}];\n''',
         );
       });
     });

@@ -48,9 +48,11 @@ class _Visitor extends SimpleAstVisitor<void> {
   @override
   void visitClassDeclaration(ClassDeclaration node) {
     final nodeAllExtendClassesAndMixin = getAllExtendClassesAndMixins(node);
+
     final doesExtendOrMixinEquatable =
         nodeAllExtendClassesAndMixin.contains(EquatableConst.className) ||
         nodeAllExtendClassesAndMixin.contains(EquatableConst.mixinName);
+
     if (!doesExtendOrMixinEquatable) {
       return;
     }

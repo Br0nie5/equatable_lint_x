@@ -20,7 +20,7 @@ class AlwaysCallSuperPropsWhenOverridingEquatableProps extends AnalysisRule {
   /// rule.
   static const code = LintCode(
     '''always_call_super_${EquatableConst.propsFieldName}_when_overriding_${EquatableConst.packageName}_${EquatableConst.propsFieldName}''',
-    '''Dart class extending a class that extend ${EquatableConst.className} should not forget to call super.${EquatableConst.propsFieldName} when overriding ${EquatableConst.packageName} ${EquatableConst.propsFieldName}.''',
+    '''Dart class extending a class that extends ${EquatableConst.className} should not forget to call super.${EquatableConst.propsFieldName} when overriding ${EquatableConst.packageName} ${EquatableConst.propsFieldName}.''',
     correctionMessage:
         '''You should add all your fields to the super.${EquatableConst.propsFieldName} array.''',
     severity: DiagnosticSeverity.WARNING,
@@ -49,6 +49,7 @@ class _Visitor extends SimpleAstVisitor<void> {
   void visitClassDeclaration(ClassDeclaration node) {
     final isDirectlyExtendingEquatable =
         node.extendsClause?.superclass.name.lexeme == EquatableConst.className;
+
     final isDirectlyWithEquatableMixin =
         node.withClause?.childEntities
             .where(
@@ -58,34 +59,29 @@ class _Visitor extends SimpleAstVisitor<void> {
             )
             .isNotEmpty ??
         false;
+
     final isDirectlyExtendingOrMixinEquatable =
         isDirectlyExtendingEquatable || isDirectlyWithEquatableMixin;
 
     final nodeAllExtendClassesAndMixins = getAllExtendClassesAndMixins(node);
+
     final superClassDoesExtendOrMixinEquatable =
         nodeAllExtendClassesAndMixins.contains(EquatableConst.className) ||
         nodeAllExtendClassesAndMixins.contains(EquatableConst.mixinName);
+
     if (isDirectlyExtendingOrMixinEquatable ||
         !superClassDoesExtendOrMixinEquatable) {
       return;
     }
 
-    final equatablePropsGetter = getEquatablePropsGetterNode(node);
+    final equatablePropsNode =
+        getEquatablePropsGetterNode(node) ?? getEquatablePropsFieldNode(node);
 
-    if (equatablePropsGetter != null &&
-        !equatablePropsGetter.toString().contains(
+    if (equatablePropsNode != null &&
+        !equatablePropsNode.toString().contains(
           'super.${EquatableConst.propsFieldName}',
         )) {
-      rule.reportAtNode(equatablePropsGetter);
-    }
-
-    final equatablePropsField = getEquatablePropsFieldNode(node);
-
-    if (equatablePropsField != null &&
-        !equatablePropsField.toString().contains(
-          'super.${EquatableConst.propsFieldName}',
-        )) {
-      rule.reportAtNode(equatablePropsField);
+      rule.reportAtNode(equatablePropsNode);
     }
   }
 }
