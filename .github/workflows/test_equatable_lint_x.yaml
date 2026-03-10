@@ -16,10 +16,10 @@ jobs:
 
     steps:
       # Checkout repository
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v6.0.2
 
       # Setup Dart SDK
-      - uses: dart-lang/setup-dart@v1.6.2
+      - uses: dart-lang/setup-dart@v1.7.1
         with:
           sdk: 3.9.0
 
