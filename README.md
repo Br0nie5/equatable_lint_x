@@ -2,9 +2,7 @@
 
 ---
 
-This package is based on a fork from the [equatable_lint](https://pub.dev/packages/equatable_lint) package.
-
-This package used the [custom_lint](https://github.com/invertase/dart_custom_lint) package.
+This package used the [analysis_server_plugin](https://github.com/dart-lang/sdk/tree/main/pkg/analysis_server_plugin) package.
 
 ---
 
@@ -57,11 +55,21 @@ plugins:
 
 You will see the errors with the usual`flutter analyze` or `dart analyze` commands.
 
+## To ignore a lint
+
+To ignore one of this plugin rule, you need to add the plugin name before the lint code like this:
+
+```dart
+// ignore: equatable_lint_x/some_code
+
+// ignore_for_file: equatable_lint_x/some_code
+```
+
 ## All the lints
 
 ### missing_field_in_equatable_props
 
-Class extending Equatable should put every field into equatable props
+Class extending Equatable should put every fields into equatable props
 
 **Good**:
 
@@ -80,6 +88,34 @@ class MyClass extends Equatable {
 
 ```dart
 class MyClass extends Equatable {
+  const MyClass({this.myField});
+
+  final String? myField;
+
+  @override
+  List<Object?> get props => [];
+}
+```
+
+Class using EquatableMixin should put every fields into equatable props
+
+**Good**:
+
+```dart
+class MyClass with EquatableMixin {
+  const MyClass({this.myField});
+
+  final String? myField;
+
+  @override
+  List<Object?> get props => [myField];
+}
+```
+
+**Bad**:
+
+```dart
+class MyClass with EquatableMixin {
   const MyClass({this.myField});
 
   final String? myField;
@@ -123,21 +159,21 @@ class MyClass extends RandomClassExtendingEquatable {
 
 ### missing_field_in_equatable_props fixes
 
-#### Add every fields to equatable props
+#### Add all fields to equatable props
 
-![Add every fields to equatable props sample](https://raw.githubusercontent.com/Br0nie5/equatable_lint_x/main/resources/add_every_fields_to_equatable_props.gif)
+![Add all fields to existing equatable props sample](https://raw.githubusercontent.com/Br0nie5/equatable_lint_x/main/resources/add_all_fields_to_existing_equatable_props.gif)
 
 #### Add field to equatable props
 
-![Add field to equatable props sample](https://raw.githubusercontent.com/Br0nie5/equatable_lint_x/main/resources/add_field_to_equatable_props.gif)
+![Add field to existing equatable props sample](https://raw.githubusercontent.com/Br0nie5/equatable_lint_x/main/resources/add_field_to_existing_equatable_props.gif)
 
-#### Create equatable props with every fields in it
+#### Create equatable props with all fields
 
-![Create equatable props with every fields in it sample](https://raw.githubusercontent.com/Br0nie5/equatable_lint_x/main/resources/create_equatable_props_with_every_fields_in_it.gif)
+![Create equatable props with all fields sample](https://raw.githubusercontent.com/Br0nie5/equatable_lint_x/main/resources/create_equatable_props_with_all_fields.gif)
 
-#### Create equatable props with field in it
+#### Create equatable props with single field
 
-![Create equatable props with field in it sample](https://raw.githubusercontent.com/Br0nie5/equatable_lint_x/main/resources/create_equatable_props_with_field_in_it.gif)
+![Create equatable props with single field sample](https://raw.githubusercontent.com/Br0nie5/equatable_lint_x/main/resources/create_equatable_props_with_single_field.gif)
 
 ### always_call_super_props_when_overriding_equatable_props fixes
 
@@ -147,6 +183,10 @@ class MyClass extends RandomClassExtendingEquatable {
 
 ## All the assists
 
-### Make class extend Equatable
+### Make class extends Equatable
 
-![Make class extend Equatable sample](https://raw.githubusercontent.com/Br0nie5/equatable_lint_x/main/resources/make_class_extend_equatable.gif)
+![Make class extends Equatable sample](https://raw.githubusercontent.com/Br0nie5/equatable_lint_x/main/resources/make_class_extends_equatable.gif)
+
+### Make class use EquatableMixin
+
+![Make class use EquatableMixin sample](https://raw.githubusercontent.com/Br0nie5/equatable_lint_x/main/resources/make_class_use_equatable_mixin.gif)
