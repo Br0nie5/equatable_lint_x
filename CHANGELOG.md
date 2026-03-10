@@ -1,3 +1,10 @@
+## 0.4.1
+
+- Add lint fix to add a single field or all of the to the equatable props
+- Add lint fix to call super.props in overridden equatable props
+- Add assist to make a class extend Equatable
+- Add assist to make a class use EquatableMixin
+
 ## 0.4.0
 
 - Use official solution analysis_server_plugin instead of custom_lint

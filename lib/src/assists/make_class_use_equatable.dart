@@ -7,7 +7,7 @@ import 'package:equatable_lint_x/src/constants/equatable_constants.dart';
 import 'package:equatable_lint_x/src/utils/get_all_non_equatable_variables_from_class_declaration.dart';
 import 'package:equatable_lint_x/src/utils/has_equatable_ancestor.dart';
 
-/// Assist resolver that make a non Equatable class extends Equatable.
+/// Assist resolver that make a non Equatable class extend Equatable.
 class MakeClassExtendEquatable extends ResolvedCorrectionProducer {
   /// [MakeClassExtendEquatable] constructor.
   MakeClassExtendEquatable({required super.context});

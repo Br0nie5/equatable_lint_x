@@ -183,9 +183,9 @@ class MyClass extends RandomClassExtendingEquatable {
 
 ## All the assists
 
-### Make class extends Equatable
+### Make class extend Equatable
 
-![Make class extends Equatable sample](https://raw.githubusercontent.com/Br0nie5/equatable_lint_x/main/resources/make_class_extends_equatable.gif)
+![Make class extend Equatable sample](https://raw.githubusercontent.com/Br0nie5/equatable_lint_x/main/resources/make_class_extend_equatable.gif)
 
 ### Make class use EquatableMixin
 
