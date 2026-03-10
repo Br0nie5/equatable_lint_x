@@ -21,7 +21,7 @@ jobs:
       # Setup Dart SDK
       - uses: dart-lang/setup-dart@v1.7.1
         with:
-          sdk: 3.9.2
+          sdk: 3.10.0
 
       - name: Install Dependencies
         run: dart pub get
@@ -48,4 +48,4 @@ jobs:
       # So we lose points because we are not compatible with the latest
       # versions.
       - name: Check package score
-        run: pana --exit-code-threshold=20 --dart-sdk /opt/hostedtoolcache/dart/3.9.2/x64/
+        run: pana --exit-code-threshold=10
