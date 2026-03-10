@@ -1,5 +1,5 @@
 {
-  "dart.flutterSdkPath": ".fvm/versions/3.41.3",
+  "dart.flutterSdkPath": ".fvm/versions/3.35.7",
   "cSpell.words": [
     "combinators",
     "futureor",
