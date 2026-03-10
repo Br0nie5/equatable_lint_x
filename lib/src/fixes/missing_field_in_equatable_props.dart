@@ -1,7 +1,6 @@
 import 'package:analysis_server_plugin/edit/dart/correction_producer.dart';
 import 'package:analysis_server_plugin/edit/dart/dart_fix_kind_priority.dart';
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:analyzer/source/source_range.dart';
 import 'package:analyzer_plugin/utilities/change_builder/change_builder_core.dart';
 import 'package:analyzer_plugin/utilities/fixes/fixes.dart';
 import 'package:equatable_lint_x/src/constants/equatable_constants.dart';
@@ -168,14 +167,11 @@ extension _AddMissingFieldInEquatablePropsFixExtension
           : '''super.${EquatableConst.propsFieldName}..addAll($allVariablesInPropsString)''';
 
       await builder.addDartFileEdit(file, (fileBuilder) {
-        fileBuilder.addReplacement(
-          SourceRange(equatableClassDeclaration.end - 1, 0),
-          (builder) {
-            builder.write(
-              '''\n\t@override\n\tList<Object?> get ${EquatableConst.propsFieldName} => $propsValueString;\n''',
-            );
-          },
-        );
+        fileBuilder.addInsertion(equatableClassDeclaration.end - 1, (builder) {
+          builder.write(
+            '''\n\t@override\n\tList<Object?> get ${EquatableConst.propsFieldName} => $propsValueString;\n''',
+          );
+        });
       });
     }
   }
