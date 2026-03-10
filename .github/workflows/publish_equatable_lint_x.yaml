@@ -1,9 +1,9 @@
 name: Publish equatable_lint_x package to pub.dev
 
 on:
-  # push:
-  #   tags:
-  #     - '[0-9]+.[0-9]+.[0-9]+*' # tag pattern on pub.dev: 'v{{version}'
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+*" # tag pattern on pub.dev: 'v{{version}'
   workflow_dispatch: # allows manual trigger only
 
 jobs:
