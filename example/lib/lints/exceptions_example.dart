@@ -8,16 +8,12 @@ class NotEquatableClass {
 }
 
 class IgnoreFieldExample extends Equatable {
-  const IgnoreFieldExample({this.ignoredField, this.nonIgnoredField});
+  const IgnoreFieldExample({this.ignoredField});
 
   // With this ignore, no lint will be showed on ignoredField even if it's not
   // in props
   // ignore: equatable_lint_x/missing_field_in_equatable_props
   final String? ignoredField;
-
-  // A lint should appear here since this fiels isn't ignored and is not in
-  // props
-  final String? nonIgnoredField;
 
   @override
   List<Object?> get props => [];
