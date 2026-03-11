@@ -6,4 +6,4 @@ pre-commit:
     dart-analyze:
       run: dart analyze --fatal-infos lib test
     tests:
-      run: ./scripts/test.sh
+      run: ./scripts/test.sh --coverage
