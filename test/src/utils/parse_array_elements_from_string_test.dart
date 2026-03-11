@@ -10,7 +10,8 @@ void main() {
         correctAnswer: ['firstField', 'secondField'],
       ),
       _TestElement(
-        description: 'Should parse my two field on 2 lines into an '
+        description:
+            'Should parse my two field on 2 lines into an '
             'two-elements array',
         input: '''
 [
@@ -21,7 +22,8 @@ void main() {
         correctAnswer: ['firstField', 'secondField'],
       ),
       _TestElement(
-        description: 'Should parse every arrays and put all the elements '
+        description:
+            'Should parse every arrays and put all the elements '
             'inside a single returned array.',
         input: '[firstField, secondField].addAll([thirdField, fourthField])',
         correctAnswer: [
@@ -54,7 +56,8 @@ void main() {
       expect(
         parseArrayElementsFromString(testElement.input),
         testElement.correctAnswer,
-        reason: '''
+        reason:
+            '''
 Test '${testElement.description}' failed.
 Parsing of ${testElement.input} returned ${parseArrayElementsFromString(testElement.input)} instead of ${testElement.correctAnswer}.
 ''',
