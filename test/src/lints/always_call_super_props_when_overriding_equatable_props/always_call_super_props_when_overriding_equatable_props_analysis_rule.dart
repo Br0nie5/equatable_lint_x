@@ -13,4 +13,17 @@ class AlwaysCallSuperPropsWhenOverridingEquatablePropsAnalysisRuleTest
     rule = AlwaysCallSuperPropsWhenOverridingEquatableProps();
     super.setUp();
   }
+
+  // Impossible to import the return type [ExpectedDiagnostic] of the lint
+  // method from the analyzer testing package.
+  // ignore: always_declare_return_types, strict_top_level_inference, type_annotate_public_apis
+  customLint(int offset, int length) => lint(
+    offset,
+    length,
+    correctionContains:
+        AlwaysCallSuperPropsWhenOverridingEquatableProps.code.correctionMessage,
+    messageContainsAll: [
+      AlwaysCallSuperPropsWhenOverridingEquatableProps.code.problemMessage,
+    ],
+  );
 }

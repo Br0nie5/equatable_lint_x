@@ -1,4 +1,3 @@
-import 'package:equatable_lint_x/src/lints/missing_field_in_equatable_props.dart';
 import 'package:test_reflective_loader/test_reflective_loader.dart';
 
 import 'missing_field_in_equatable_props_analysis_rule.dart';
@@ -28,23 +27,7 @@ class EquatableTestClass extends Equatable {
   List<Object?> get props => [];
 }
 ''',
-      [
-        lint(
-          148,
-          5,
-          correctionContains: MissingFieldInEquatableProps
-              .code
-              .correctionMessage
-              ?.replaceAll('{0}', 'field'),
-          messageContainsAll: [
-            MissingFieldInEquatableProps.code.problemMessage.replaceAll(
-              '{0}',
-              'field',
-            ),
-          ],
-          name: MissingFieldInEquatableProps.code.name,
-        ),
-      ],
+      [customLint(148, 5, variableName: 'field')],
     );
   }
 
@@ -65,36 +48,8 @@ class EquatableTestClass extends Equatable {
 }
 ''',
       [
-        lint(
-          162,
-          6,
-          correctionContains: MissingFieldInEquatableProps
-              .code
-              .correctionMessage
-              ?.replaceAll('{0}', 'field1'),
-          messageContainsAll: [
-            MissingFieldInEquatableProps.code.problemMessage.replaceAll(
-              '{0}',
-              'field1',
-            ),
-          ],
-          name: MissingFieldInEquatableProps.code.name,
-        ),
-        lint(
-          170,
-          6,
-          correctionContains: MissingFieldInEquatableProps
-              .code
-              .correctionMessage
-              ?.replaceAll('{0}', 'field2'),
-          messageContainsAll: [
-            MissingFieldInEquatableProps.code.problemMessage.replaceAll(
-              '{0}',
-              'field2',
-            ),
-          ],
-          name: MissingFieldInEquatableProps.code.name,
-        ),
+        customLint(162, 6, variableName: 'field1'),
+        customLint(170, 6, variableName: 'field2'),
       ],
     );
   }
@@ -118,36 +73,8 @@ class EquatableTestClass extends Equatable {
 }
 ''',
       [
-        lint(
-          162,
-          6,
-          correctionContains: MissingFieldInEquatableProps
-              .code
-              .correctionMessage
-              ?.replaceAll('{0}', 'field1'),
-          messageContainsAll: [
-            MissingFieldInEquatableProps.code.problemMessage.replaceAll(
-              '{0}',
-              'field1',
-            ),
-          ],
-          name: MissingFieldInEquatableProps.code.name,
-        ),
-        lint(
-          187,
-          6,
-          correctionContains: MissingFieldInEquatableProps
-              .code
-              .correctionMessage
-              ?.replaceAll('{0}', 'field2'),
-          messageContainsAll: [
-            MissingFieldInEquatableProps.code.problemMessage.replaceAll(
-              '{0}',
-              'field2',
-            ),
-          ],
-          name: MissingFieldInEquatableProps.code.name,
-        ),
+        customLint(162, 6, variableName: 'field1'),
+        customLint(187, 6, variableName: 'field2'),
       ],
     );
   }
@@ -168,23 +95,7 @@ class EquatableTestClass with EquatableMixin {
   List<Object?> get props => [];
 }
 ''',
-      [
-        lint(
-          150,
-          5,
-          correctionContains: MissingFieldInEquatableProps
-              .code
-              .correctionMessage
-              ?.replaceAll('{0}', 'field'),
-          messageContainsAll: [
-            MissingFieldInEquatableProps.code.problemMessage.replaceAll(
-              '{0}',
-              'field',
-            ),
-          ],
-          name: MissingFieldInEquatableProps.code.name,
-        ),
-      ],
+      [customLint(150, 5, variableName: 'field')],
     );
   }
 }

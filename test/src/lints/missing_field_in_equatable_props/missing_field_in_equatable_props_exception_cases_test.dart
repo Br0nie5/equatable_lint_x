@@ -1,4 +1,3 @@
-import 'package:equatable_lint_x/src/lints/missing_field_in_equatable_props.dart';
 import 'package:test_reflective_loader/test_reflective_loader.dart';
 
 import 'missing_field_in_equatable_props_analysis_rule.dart';
@@ -94,23 +93,7 @@ class EquatableTestClass extends BaseEquatableTestClass {
   final String? field;
 }
 ''',
-      [
-        lint(
-          293,
-          5,
-          correctionContains: MissingFieldInEquatableProps
-              .code
-              .correctionMessage
-              ?.replaceAll('{0}', 'field'),
-          messageContainsAll: [
-            MissingFieldInEquatableProps.code.problemMessage.replaceAll(
-              '{0}',
-              'field',
-            ),
-          ],
-          name: MissingFieldInEquatableProps.code.name,
-        ),
-      ],
+      [customLint(293, 5, variableName: 'field')],
     );
   }
 }

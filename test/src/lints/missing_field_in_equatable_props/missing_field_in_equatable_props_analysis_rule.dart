@@ -12,4 +12,26 @@ class MissingFieldInEquatablePropsAnalysisRuleTest extends AnalysisRuleTest {
     rule = MissingFieldInEquatableProps();
     super.setUp();
   }
+
+  // Impossible to import the return type [ExpectedDiagnostic] of the lint
+  // method from the analyzer testing package.
+  // ignore: always_declare_return_types, strict_top_level_inference, type_annotate_public_apis
+  customLint(int offset, int length, {String? variableName}) {
+    const variableNamePlaceholder = '{0}';
+    return lint(
+      offset,
+      length,
+      correctionContains: MissingFieldInEquatableProps.code.correctionMessage
+          ?.replaceAll(
+            variableNamePlaceholder,
+            variableName ?? variableNamePlaceholder,
+          ),
+      messageContainsAll: [
+        MissingFieldInEquatableProps.code.problemMessage.replaceAll(
+          variableNamePlaceholder,
+          variableName ?? variableNamePlaceholder,
+        ),
+      ],
+    );
+  }
 }

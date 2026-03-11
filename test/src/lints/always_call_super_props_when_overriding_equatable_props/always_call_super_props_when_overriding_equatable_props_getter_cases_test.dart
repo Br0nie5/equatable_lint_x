@@ -1,4 +1,3 @@
-import 'package:equatable_lint_x/src/lints/always_call_super_props_when_overriding_equatable_props.dart';
 import 'package:test_reflective_loader/test_reflective_loader.dart';
 
 import '''always_call_super_props_when_overriding_equatable_props_analysis_rule.dart''';
@@ -42,21 +41,7 @@ class EquatableTestClass extends BaseEquatableTestClass {
   List<Object?> get props => [field];
 }
 ''',
-      [
-        lint(
-          303,
-          47,
-          correctionContains: AlwaysCallSuperPropsWhenOverridingEquatableProps
-              .code
-              .correctionMessage,
-          messageContainsAll: [
-            AlwaysCallSuperPropsWhenOverridingEquatableProps
-                .code
-                .problemMessage,
-          ],
-          name: AlwaysCallSuperPropsWhenOverridingEquatableProps.code.name,
-        ),
-      ],
+      [customLint(303, 47)],
     );
   }
 
@@ -83,21 +68,7 @@ class EquatableTestClass extends BaseEquatableTestClass {
   List<Object?> get props => [field];
 }
 ''',
-      [
-        lint(
-          305,
-          47,
-          correctionContains: AlwaysCallSuperPropsWhenOverridingEquatableProps
-              .code
-              .correctionMessage,
-          messageContainsAll: [
-            AlwaysCallSuperPropsWhenOverridingEquatableProps
-                .code
-                .problemMessage,
-          ],
-          name: AlwaysCallSuperPropsWhenOverridingEquatableProps.code.name,
-        ),
-      ],
+      [customLint(305, 47)],
     );
   }
 }
