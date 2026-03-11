@@ -98,10 +98,15 @@ class EquatableTestClass extends BaseEquatableTestClass {
         lint(
           293,
           5,
-          correctionContains:
-              MissingFieldInEquatableProps.code.correctionMessage,
+          correctionContains: MissingFieldInEquatableProps
+              .code
+              .correctionMessage
+              ?.replaceAll('{0}', 'field'),
           messageContainsAll: [
-            MissingFieldInEquatableProps.code.problemMessage,
+            MissingFieldInEquatableProps.code.problemMessage.replaceAll(
+              '{0}',
+              'field',
+            ),
           ],
           name: MissingFieldInEquatableProps.code.name,
         ),

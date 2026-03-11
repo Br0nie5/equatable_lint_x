@@ -32,10 +32,15 @@ class EquatableTestClass extends Equatable {
         lint(
           148,
           5,
-          correctionContains:
-              MissingFieldInEquatableProps.code.correctionMessage,
+          correctionContains: MissingFieldInEquatableProps
+              .code
+              .correctionMessage
+              ?.replaceAll('{0}', 'field'),
           messageContainsAll: [
-            MissingFieldInEquatableProps.code.problemMessage,
+            MissingFieldInEquatableProps.code.problemMessage.replaceAll(
+              '{0}',
+              'field',
+            ),
           ],
           name: MissingFieldInEquatableProps.code.name,
         ),
@@ -63,20 +68,30 @@ class EquatableTestClass extends Equatable {
         lint(
           162,
           6,
-          correctionContains:
-              MissingFieldInEquatableProps.code.correctionMessage,
+          correctionContains: MissingFieldInEquatableProps
+              .code
+              .correctionMessage
+              ?.replaceAll('{0}', 'field1'),
           messageContainsAll: [
-            MissingFieldInEquatableProps.code.problemMessage,
+            MissingFieldInEquatableProps.code.problemMessage.replaceAll(
+              '{0}',
+              'field1',
+            ),
           ],
           name: MissingFieldInEquatableProps.code.name,
         ),
         lint(
           170,
           6,
-          correctionContains:
-              MissingFieldInEquatableProps.code.correctionMessage,
+          correctionContains: MissingFieldInEquatableProps
+              .code
+              .correctionMessage
+              ?.replaceAll('{0}', 'field2'),
           messageContainsAll: [
-            MissingFieldInEquatableProps.code.problemMessage,
+            MissingFieldInEquatableProps.code.problemMessage.replaceAll(
+              '{0}',
+              'field2',
+            ),
           ],
           name: MissingFieldInEquatableProps.code.name,
         ),
@@ -106,20 +121,30 @@ class EquatableTestClass extends Equatable {
         lint(
           162,
           6,
-          correctionContains:
-              MissingFieldInEquatableProps.code.correctionMessage,
+          correctionContains: MissingFieldInEquatableProps
+              .code
+              .correctionMessage
+              ?.replaceAll('{0}', 'field1'),
           messageContainsAll: [
-            MissingFieldInEquatableProps.code.problemMessage,
+            MissingFieldInEquatableProps.code.problemMessage.replaceAll(
+              '{0}',
+              'field1',
+            ),
           ],
           name: MissingFieldInEquatableProps.code.name,
         ),
         lint(
           187,
           6,
-          correctionContains:
-              MissingFieldInEquatableProps.code.correctionMessage,
+          correctionContains: MissingFieldInEquatableProps
+              .code
+              .correctionMessage
+              ?.replaceAll('{0}', 'field2'),
           messageContainsAll: [
-            MissingFieldInEquatableProps.code.problemMessage,
+            MissingFieldInEquatableProps.code.problemMessage.replaceAll(
+              '{0}',
+              'field2',
+            ),
           ],
           name: MissingFieldInEquatableProps.code.name,
         ),
@@ -147,10 +172,15 @@ class EquatableTestClass with EquatableMixin {
         lint(
           150,
           5,
-          correctionContains:
-              MissingFieldInEquatableProps.code.correctionMessage,
+          correctionContains: MissingFieldInEquatableProps
+              .code
+              .correctionMessage
+              ?.replaceAll('{0}', 'field'),
           messageContainsAll: [
-            MissingFieldInEquatableProps.code.problemMessage,
+            MissingFieldInEquatableProps.code.problemMessage.replaceAll(
+              '{0}',
+              'field',
+            ),
           ],
           name: MissingFieldInEquatableProps.code.name,
         ),

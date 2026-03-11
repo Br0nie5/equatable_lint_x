@@ -39,10 +39,15 @@ class EquatableTestClass extends BaseEquatableTestClass {
         lint(
           296,
           8,
-          correctionContains:
-              MissingFieldInEquatableProps.code.correctionMessage,
+          correctionContains: MissingFieldInEquatableProps
+              .code
+              .correctionMessage
+              ?.replaceAll('{0}', 'newField'),
           messageContainsAll: [
-            MissingFieldInEquatableProps.code.problemMessage,
+            MissingFieldInEquatableProps.code.problemMessage.replaceAll(
+              '{0}',
+              'newField',
+            ),
           ],
           name: MissingFieldInEquatableProps.code.name,
         ),
@@ -67,7 +72,6 @@ class BaseEquatableClass with EquatableMixin {
 class EquatableTestClass extends BaseEquatableClass {
   const EquatableTestClass({this.field});
 
-  // A lint will appear here because field is not in not in props
   final String? field;
 
   @override
@@ -76,12 +80,17 @@ class EquatableTestClass extends BaseEquatableClass {
 ''',
       [
         lint(
-          349,
+          283,
           5,
-          correctionContains:
-              MissingFieldInEquatableProps.code.correctionMessage,
+          correctionContains: MissingFieldInEquatableProps
+              .code
+              .correctionMessage
+              ?.replaceAll('{0}', 'field'),
           messageContainsAll: [
-            MissingFieldInEquatableProps.code.problemMessage,
+            MissingFieldInEquatableProps.code.problemMessage.replaceAll(
+              '{0}',
+              'field',
+            ),
           ],
           name: MissingFieldInEquatableProps.code.name,
         ),

@@ -24,13 +24,13 @@ class AlwaysCallSuperPropsWhenOverridingEquatableProps extends AnalysisRule {
   /// rule.
   static const code = LintCode(
     _lintCodeName,
-    'Dart class extending a class that extends ${EquatableConst.className} '
-    'should not forget to call super.${EquatableConst.propsFieldName} when '
-    'overriding ${EquatableConst.packageName} '
-    '${EquatableConst.propsFieldName}.',
+    'The ${EquatableConst.propsFieldName} override should call '
+    'super.${EquatableConst.propsFieldName}.',
     correctionMessage:
-        'You should add all your fields to the super.'
-        '${EquatableConst.propsFieldName} array.\n\n'
+        'You should call super.${EquatableConst.propsFieldName} when '
+        'setting your ${EquatableConst.packageName} '
+        '${EquatableConst.propsFieldName} override to avoid missing one of '
+        "its ancestor's props.\n\n"
         'See ${EquatableLintXRepoConst.githubLintCodeBaseUrl}$_lintCodeName',
     severity: DiagnosticSeverity.WARNING,
   );

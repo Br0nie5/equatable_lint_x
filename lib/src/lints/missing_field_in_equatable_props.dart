@@ -24,11 +24,11 @@ class MissingFieldInEquatableProps extends AnalysisRule {
   /// [LintCode] defined for [MissingFieldInEquatableProps] rule.
   static const code = LintCode(
     _lintCodeName,
-    'Dart class extending ${EquatableConst.className} must contain each field '
-    'inside its ${EquatableConst.propsFieldName} field override.',
+    'Field `{0}` is not inside ${EquatableConst.propsFieldName} override.',
     correctionMessage:
-        'You should add this field to the ${EquatableConst.packageName} '
-        '${EquatableConst.propsFieldName} field.\n\n'
+        'You should add the field `{0}` to the ${EquatableConst.packageName} '
+        '${EquatableConst.propsFieldName} in order to use it when '
+        "comparing this class's instances.\n\n"
         'See ${EquatableLintXRepoConst.githubLintCodeBaseUrl}$_lintCodeName',
     severity: DiagnosticSeverity.WARNING,
   );
@@ -69,7 +69,10 @@ class _Visitor extends SimpleAstVisitor<void> {
       if (!variablesNamesInEquatableProps.contains(
         variableDeclaration.name.lexeme,
       )) {
-        rule.reportAtNode(variableDeclaration);
+        rule.reportAtNode(
+          variableDeclaration,
+          arguments: [variableDeclaration.name.lexeme],
+        );
       }
     }
   }
