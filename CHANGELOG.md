@@ -1,3 +1,7 @@
+## 0.4.2
+
+- Change lints' messages
+
 ## 0.4.1
 
 - Add lint fix to add a single field or all of the to the equatable props
