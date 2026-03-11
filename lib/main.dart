@@ -1,10 +1,10 @@
 import 'package:analysis_server_plugin/plugin.dart';
 import 'package:analysis_server_plugin/registry.dart';
 import 'package:equatable_lint_x/src/assists/make_class_use_equatable.dart';
-import 'package:equatable_lint_x/src/fixes/always_call_super_props_when_overriding_equatable_props.dart';
-import 'package:equatable_lint_x/src/fixes/missing_field_in_equatable_props.dart';
-import 'package:equatable_lint_x/src/lints/always_call_super_props_when_overriding_equatable_props.dart';
-import 'package:equatable_lint_x/src/lints/missing_field_in_equatable_props.dart';
+import 'package:equatable_lint_x/src/lints/always_call_super_props_when_overriding_equatable_props/always_call_super_props_when_overriding_equatable_props.dart';
+import 'package:equatable_lint_x/src/lints/always_call_super_props_when_overriding_equatable_props/fixes/call_super_props_when_overriding_equtable_props.dart';
+import 'package:equatable_lint_x/src/lints/missing_field_in_equatable_props/fixes/add_missing_field_in_equatable_props.dart';
+import 'package:equatable_lint_x/src/lints/missing_field_in_equatable_props/missing_field_in_equatable_props.dart';
 
 /// Plugin for the Equatable Lint rules
 final plugin = _EquatablePlugin();

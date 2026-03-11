@@ -4,7 +4,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer_plugin/utilities/change_builder/change_builder_core.dart';
 import 'package:analyzer_plugin/utilities/fixes/fixes.dart';
 import 'package:equatable_lint_x/src/constants/equatable_constants.dart';
-import 'package:equatable_lint_x/src/lints/always_call_super_props_when_overriding_equatable_props.dart';
+import 'package:equatable_lint_x/src/lints/always_call_super_props_when_overriding_equatable_props/always_call_super_props_when_overriding_equatable_props.dart';
 import 'package:equatable_lint_x/src/utils/node_source_range_extension.dart';
 
 /// Fix resolver for lint [AlwaysCallSuperPropsWhenOverridingEquatableProps].

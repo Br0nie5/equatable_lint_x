@@ -4,7 +4,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer_plugin/utilities/change_builder/change_builder_core.dart';
 import 'package:analyzer_plugin/utilities/fixes/fixes.dart';
 import 'package:equatable_lint_x/src/constants/equatable_constants.dart';
-import 'package:equatable_lint_x/src/lints/missing_field_in_equatable_props.dart';
+import 'package:equatable_lint_x/src/lints/missing_field_in_equatable_props/missing_field_in_equatable_props.dart';
 import 'package:equatable_lint_x/src/utils/get_all_non_equatable_variables_from_class_declaration.dart';
 import 'package:equatable_lint_x/src/utils/get_equatable_props_array_elements.dart';
 import 'package:equatable_lint_x/src/utils/get_equatable_props_node.dart';
