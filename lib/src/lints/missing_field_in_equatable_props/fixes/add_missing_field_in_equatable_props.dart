@@ -164,7 +164,10 @@ extension _AddMissingFieldInEquatablePropsFixExtension
 
       final propsValueString = hasEquatableDirectAncestor
           ? allVariablesInPropsString
-          : '''super.${EquatableConst.propsFieldName}..addAll($allVariablesInPropsString)''';
+          : allVariablesInPropsString.replaceFirst(
+              '[',
+              '[...super.${EquatableConst.propsFieldName}, ',
+            );
 
       await builder.addDartFileEdit(file, (fileBuilder) {
         fileBuilder.addInsertion(equatableClassDeclaration.end - 1, (builder) {

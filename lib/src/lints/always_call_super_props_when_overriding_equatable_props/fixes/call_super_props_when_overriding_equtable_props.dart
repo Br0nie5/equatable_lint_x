@@ -40,8 +40,16 @@ class CallSuperPropsWhenOverridingEquatableProps
                 .toString()
                 .replaceFirstMapped(
                   RegExp('(get ${EquatableConst.propsFieldName} => )(.*?);'),
-                  (m) =>
-                      '''get ${EquatableConst.propsFieldName} => super.${EquatableConst.propsFieldName}..addAll(${m[2]});''',
+                  (match) {
+                    final currentPropsArrayString = match[2] ?? '[]';
+                    final newPropsArrayString = currentPropsArrayString
+                        .replaceFirst(
+                          '[',
+                          '[...super.${EquatableConst.propsFieldName}, ',
+                        );
+
+                    return '''get ${EquatableConst.propsFieldName} => $newPropsArrayString;''';
+                  },
                 )
                 .replaceAll('@override ', '@override\n\t'),
           );
@@ -55,8 +63,16 @@ class CallSuperPropsWhenOverridingEquatableProps
                 .toString()
                 .replaceFirstMapped(
                   RegExp('(${EquatableConst.propsFieldName} = )(.*?);'),
-                  (m) =>
-                      '''${EquatableConst.propsFieldName} = super.${EquatableConst.propsFieldName}..addAll(${m[2]});''',
+                  (match) {
+                    final currentPropsArrayString = match[2] ?? '[]';
+                    final newPropsArrayString = currentPropsArrayString
+                        .replaceFirst(
+                          '[',
+                          '[...super.${EquatableConst.propsFieldName}, ',
+                        );
+
+                    return '''${EquatableConst.propsFieldName} = $newPropsArrayString;''';
+                  },
                 )
                 .replaceAll('@override ', '@override\n\t'),
           );

@@ -1,3 +1,7 @@
+### 0.4.3
+
+- Spread super.props instead of using addAll method to avoid array pointers problems
+
 ## 0.4.2
 
 - Change lints' messages
