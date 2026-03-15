@@ -1,9 +1,6 @@
 name: equatable_lint_x
 version: 0.4.3
-description:
-  This is a set of rules to make classes using Equatable more maintainable.
-  We make sure here that every fields in an Equatable class is linked to the Equatable props.
-  We also make super that a class call super.props if one of its ancestor use Equatable.
+description: This is a set of rules to make classes using Equatable more maintainable. We make sure your class use all its fields for comparaison even those of its ancestor if necessary.
 homepage: https://github.com/Br0nie5/equatable_lint_x
 repository: https://github.com/Br0nie5/equatable_lint_x
 
