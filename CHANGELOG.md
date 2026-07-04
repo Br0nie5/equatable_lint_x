@@ -1,3 +1,7 @@
+### 0.4.6
+
+- Upgrade to analyzer `12.1.0`
+
 ### 0.4.5
 
 - Upgrade to analyzer `10.2.0`
