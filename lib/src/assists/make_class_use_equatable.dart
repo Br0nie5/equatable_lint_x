@@ -25,8 +25,8 @@ class MakeClassExtendEquatable extends ResolvedCorrectionProducer {
 
   @override
   Future<void> compute(ChangeBuilder builder) async {
-    final node = this.node;
-    if (node is! ClassDeclaration) {
+    final node = this.node.thisOrAncestorOfType<ClassDeclaration>();
+    if (node == null) {
       return;
     }
 
@@ -45,7 +45,7 @@ class MakeClassExtendEquatable extends ResolvedCorrectionProducer {
     await addEquatableImportConditionally(builder);
 
     await builder.addDartFileEdit(file, (fileBuilder) {
-      fileBuilder.addInsertion(node.name.end, (builder) {
+      fileBuilder.addInsertion(node.namePart.end, (builder) {
         builder.write(' extends ${EquatableConst.className}');
       });
     });
@@ -72,8 +72,8 @@ class MakeClassWithEquatableMixin extends ResolvedCorrectionProducer {
 
   @override
   Future<void> compute(ChangeBuilder builder) async {
-    final node = this.node;
-    if (node is! ClassDeclaration) {
+    final node = this.node.thisOrAncestorOfType<ClassDeclaration>();
+    if (node == null) {
       return;
     }
 
@@ -103,7 +103,7 @@ class MakeClassWithEquatableMixin extends ResolvedCorrectionProducer {
 
     if (classExtendsClause == null) {
       await builder.addDartFileEdit(file, (fileBuilder) {
-        fileBuilder.addInsertion(node.name.end, (builder) {
+        fileBuilder.addInsertion(node.namePart.end, (builder) {
           builder.write(' with ${EquatableConst.mixinName}');
         });
       });
@@ -152,9 +152,6 @@ extension _MakeClassUseEquatable on ResolvedCorrectionProducer {
     } else {
       await builder.addDartFileEdit(file, (fileBuilder) {
         fileBuilder.addReplacement(SourceRange.EMPTY, (builder) {
-          builder.write("import '${EquatableConst.packageIdentifier}';\n\n");
-        });
-        fileBuilder.addInsertion(0, (builder) {
           builder.write("import '${EquatableConst.packageIdentifier}';\n\n");
         });
       });

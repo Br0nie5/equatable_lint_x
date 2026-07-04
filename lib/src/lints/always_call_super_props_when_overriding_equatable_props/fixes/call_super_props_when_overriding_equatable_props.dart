@@ -5,7 +5,6 @@ import 'package:analyzer_plugin/utilities/change_builder/change_builder_core.dar
 import 'package:analyzer_plugin/utilities/fixes/fixes.dart';
 import 'package:equatable_lint_x/src/constants/equatable_constants.dart';
 import 'package:equatable_lint_x/src/lints/always_call_super_props_when_overriding_equatable_props/always_call_super_props_when_overriding_equatable_props.dart';
-import 'package:equatable_lint_x/src/utils/node_source_range_extension.dart';
 
 /// Fix resolver for lint [AlwaysCallSuperPropsWhenOverridingEquatableProps].
 /// Call super.props in the equatable props field or getter.
@@ -16,7 +15,7 @@ class CallSuperPropsWhenOverridingEquatableProps
 
   /// [FixKind] defined for [CallSuperPropsWhenOverridingEquatableProps.fixKind]
   static final fix = FixKind(
-    AlwaysCallSuperPropsWhenOverridingEquatableProps.code.name,
+    AlwaysCallSuperPropsWhenOverridingEquatableProps.code.lowerCaseName,
     DartFixKindPriority.standard,
     '''Call super.${EquatableConst.propsFieldName} in the ${EquatableConst.packageName} ${EquatableConst.propsFieldName} field or getter.''',
   );

@@ -15,7 +15,7 @@ import 'package:equatable_lint_x/src/utils/has_equatable_ancestor.dart';
 class AlwaysCallSuperPropsWhenOverridingEquatableProps extends AnalysisRule {
   /// [AlwaysCallSuperPropsWhenOverridingEquatableProps] constructor.
   AlwaysCallSuperPropsWhenOverridingEquatableProps()
-    : super(name: code.name, description: code.problemMessage);
+    : super(name: code.lowerCaseName, description: code.problemMessage);
 
   static const _lintCodeName =
       '''always_call_super_${EquatableConst.propsFieldName}_when_overriding_${EquatableConst.packageName}_${EquatableConst.propsFieldName}''';

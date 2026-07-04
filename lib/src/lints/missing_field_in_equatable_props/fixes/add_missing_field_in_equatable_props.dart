@@ -9,7 +9,6 @@ import 'package:equatable_lint_x/src/utils/get_all_non_equatable_variables_from_
 import 'package:equatable_lint_x/src/utils/get_equatable_props_array_elements.dart';
 import 'package:equatable_lint_x/src/utils/get_equatable_props_node.dart';
 import 'package:equatable_lint_x/src/utils/has_equatable_ancestor.dart';
-import 'package:equatable_lint_x/src/utils/node_source_range_extension.dart';
 
 /// Fix resolver for lint [MissingFieldInEquatableProps].
 /// Add the missing field in the equatable props field or getter.
@@ -20,7 +19,7 @@ class AddMissingFieldInEquatablePropsFix extends ResolvedCorrectionProducer {
 
   /// [FixKind] defined for [AddMissingFieldInEquatablePropsFix.fixKind].
   static final fix = FixKind(
-    MissingFieldInEquatableProps.code.name,
+    MissingFieldInEquatableProps.code.lowerCaseName,
     DartFixKindPriority.standard,
     '''Add the missing field inside the ${EquatableConst.packageName} ${EquatableConst.propsFieldName} field or getter.''',
   );
@@ -71,7 +70,7 @@ class AddAllMissingFieldInEquatablePropsFix extends ResolvedCorrectionProducer {
 
   /// [FixKind] defined for [AddAllMissingFieldInEquatablePropsFix.fixKind].
   static final fix = FixKind(
-    MissingFieldInEquatableProps.code.name,
+    MissingFieldInEquatableProps.code.lowerCaseName,
     DartFixKindPriority.inFile,
     '''Add all the missing fields inside the ${EquatableConst.packageName} ${EquatableConst.propsFieldName} field or getter.''',
   );

@@ -1,3 +1,7 @@
+### 0.4.4
+
+- Upgrade to analyzer `10.2.0`
+
 ### 0.4.3
 
 - Spread super.props instead of using addAll method to avoid array pointers problems

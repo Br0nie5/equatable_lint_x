@@ -6,6 +6,9 @@ import 'package:equatable_lint_x/src/constants/equatable_constants.dart';
 List<VariableDeclaration> getAllNonEquatableVariablesFromClassDeclaration(
   ClassDeclaration node,
 ) => node.childEntities
+    .whereType<BlockClassBody>()
+    .map((blockClassBody) => blockClassBody.childEntities)
+    .flattenedToList
     .whereType<FieldDeclaration>()
     .where((fieldDeclaration) => !fieldDeclaration.isStatic)
     .map(

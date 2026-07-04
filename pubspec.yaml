@@ -1,5 +1,5 @@
 name: equatable_lint_x
-version: 0.4.3
+version: 0.4.4
 description: This is a set of rules to make classes using Equatable more maintainable. We make sure your class use all its fields for comparaison even those of its ancestor if necessary.
 homepage: https://github.com/Br0nie5/equatable_lint_x
 repository: https://github.com/Br0nie5/equatable_lint_x
@@ -14,12 +14,12 @@ plugin:
       fileName: main.dart
 
 dependencies:
-  analysis_server_plugin: ^0.3.4
-  analyzer: ^9.0.0
-  analyzer_plugin: ^0.13.11
+  analysis_server_plugin: ^0.3.10
+  analyzer: ^10.2.0
+  analyzer_plugin: ^0.14.4
   collection: ^1.19.1
 
 dev_dependencies:
-  analyzer_testing: ^0.1.7
-  test: ^1.30.0
+  analyzer_testing: ^0.2.1
+  test: ^1.31.1
   test_reflective_loader: ^0.4.0

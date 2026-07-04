@@ -3,15 +3,25 @@ import 'package:collection/collection.dart';
 import 'package:equatable_lint_x/src/constants/equatable_constants.dart';
 
 /// Method to get the equatable props getter node
-MethodDeclaration? getEquatablePropsGetterNode(ClassDeclaration node) =>
-    node.childEntities.whereType<MethodDeclaration>().firstWhereOrNull(
+MethodDeclaration? getEquatablePropsGetterNode(ClassDeclaration node) => node
+    .childEntities
+    .whereType<BlockClassBody>()
+    .map((blockClassBody) => blockClassBody.childEntities)
+    .flattenedToList
+    .whereType<MethodDeclaration>()
+    .firstWhereOrNull(
       (methodDeclaration) =>
           methodDeclaration.name.lexeme == EquatableConst.propsFieldName,
     );
 
 /// Method to get the equatable props field node
-FieldDeclaration? getEquatablePropsFieldNode(ClassDeclaration node) =>
-    node.childEntities.whereType<FieldDeclaration>().where((fieldDeclaration) {
+FieldDeclaration? getEquatablePropsFieldNode(ClassDeclaration node) => node
+    .childEntities
+    .whereType<BlockClassBody>()
+    .map((blockClassBody) => blockClassBody.childEntities)
+    .flattenedToList
+    .whereType<FieldDeclaration>()
+    .where((fieldDeclaration) {
       final variableDeclarationList = fieldDeclaration.childEntities
           .whereType<VariableDeclarationList>()
           .firstOrNull;
@@ -31,4 +41,5 @@ FieldDeclaration? getEquatablePropsFieldNode(ClassDeclaration node) =>
       }
 
       return true;
-    }).firstOrNull;
+    })
+    .firstOrNull;

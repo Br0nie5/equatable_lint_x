@@ -16,7 +16,7 @@ import 'package:equatable_lint_x/src/utils/has_equatable_ancestor.dart';
 class MissingFieldInEquatableProps extends AnalysisRule {
   /// [MissingFieldInEquatableProps] constructor.
   MissingFieldInEquatableProps()
-    : super(name: code.name, description: code.problemMessage);
+    : super(name: code.lowerCaseName, description: code.problemMessage);
 
   static const _lintCodeName =
       '''missing_field_in_${EquatableConst.packageName}_${EquatableConst.propsFieldName}''';
