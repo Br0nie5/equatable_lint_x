@@ -35,7 +35,7 @@ set -e  # re-enable
 if [ "$COVERAGE" = true ]; then
   echo "📊 Generating coverage report..."
   echo ""
-  lcov --ignore-errors unused,unused \
+  lcov --ignore-errors unused,unused,empty,empty \
     --remove coverage/lcov.info '*.g.dart' '*.gen.dart' '*.gicons.dart' '*.glocalizations.dart' \
     -o coverage/lcov.info
 

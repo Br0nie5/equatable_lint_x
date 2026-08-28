@@ -14,12 +14,12 @@ plugin:
       fileName: main.dart
 
 dependencies:
-  analysis_server_plugin: ^0.3.14
-  analyzer: ^12.1.0
-  analyzer_plugin: ^0.14.8
+  analysis_server_plugin: ^0.3.18
+  analyzer: ^13.3.0
+  analyzer_plugin: ^0.14.12
   collection: ^1.19.1
 
 dev_dependencies:
-  analyzer_testing: ^0.2.5
-  test: ^1.31.1
+  analyzer_testing: ^0.3.2
+  test: ^1.31.2
   test_reflective_loader: ^0.4.0
