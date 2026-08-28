@@ -1,5 +1,5 @@
 // Should show an assist to make this class extends Equatable or with
-// EquatableMixin
+// Equatable mixin
 class NonEquatableClass {
   const NonEquatableClass({this.field});
 
@@ -10,7 +10,7 @@ class TempExtends {
   const TempExtends();
 }
 
-// Should show an assist to make this class with EquatableMixin
+// Should show an assist to make this class with Equatable mixin
 class NonEquatableAlreadyExtendingClass extends TempExtends {
   const NonEquatableAlreadyExtendingClass({this.field});
 
@@ -20,7 +20,7 @@ class NonEquatableAlreadyExtendingClass extends TempExtends {
 mixin TempMixin {}
 
 // Should show an assist to make this class extends Equatable or with
-// EquatableMixin
+// Equatable mixin
 class NonEquatableAlreadyWithMixinClass with TempMixin {
   const NonEquatableAlreadyWithMixinClass({this.field});
 

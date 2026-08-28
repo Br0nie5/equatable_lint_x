@@ -34,6 +34,6 @@ class _EquatablePlugin extends Plugin {
     );
 
     registry.registerAssist(MakeClassExtendEquatable.new);
-    registry.registerAssist(MakeClassWithEquatableMixin.new);
+    registry.registerAssist(MakeClassWithEquatable.new);
   }
 }

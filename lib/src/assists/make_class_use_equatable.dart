@@ -54,16 +54,16 @@ class MakeClassExtendEquatable extends ResolvedCorrectionProducer {
   }
 }
 
-/// Assist resolver that make a non Equatable class use EquatableMixin.
-class MakeClassWithEquatableMixin extends ResolvedCorrectionProducer {
-  /// [MakeClassWithEquatableMixin] constructor.
-  MakeClassWithEquatableMixin({required super.context});
+/// Assist resolver that make a non Equatable class use Equatable mixin.
+class MakeClassWithEquatable extends ResolvedCorrectionProducer {
+  /// [MakeClassWithEquatable] constructor.
+  MakeClassWithEquatable({required super.context});
 
   @override
   AssistKind get assistKind => const AssistKind(
     'make_class_with_${EquatableConst.packageName}_mixin',
     50,
-    'Make class use ${EquatableConst.mixinName}',
+    'Make class with ${EquatableConst.mixinName} mixin',
   );
 
   @override

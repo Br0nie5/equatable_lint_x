@@ -5,14 +5,9 @@ extension Mocks on AnalysisRuleTest {
     final package = newPackage('equatable');
     package.addFile('lib/equatable.dart', '''
 @immutable
-abstract class Equatable {
+abstract mixin class Equatable {
   const Equatable();
 
-  List<Object?> get props;
-}
-
-@immutable
-mixin EquatableMixin {
   List<Object?> get props;
 }
 ''');

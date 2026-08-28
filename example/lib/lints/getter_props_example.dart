@@ -36,7 +36,7 @@ class MultipleFieldsNotInPropsGetterExample extends Equatable {
   List<Object?> get props => [];
 }
 
-class FieldNotInPropsGetterWithEquatableMixinExample with EquatableMixin {
+class FieldNotInPropsGetterWithEquatableMixinExample with Equatable {
   const FieldNotInPropsGetterWithEquatableMixinExample({this.field});
 
   final String? field;

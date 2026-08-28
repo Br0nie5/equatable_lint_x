@@ -97,12 +97,12 @@ class MyClass extends Equatable {
 }
 ```
 
-Class using EquatableMixin should put every fields into equatable props
+Class using Equatable mixin should put every fields into equatable props
 
 **Good**:
 
 ```dart
-class MyClass with EquatableMixin {
+class MyClass with Equatable {
   const MyClass({this.myField});
 
   final String? myField;
@@ -115,7 +115,7 @@ class MyClass with EquatableMixin {
 **Bad**:
 
 ```dart
-class MyClass with EquatableMixin {
+class MyClass with Equatable {
   const MyClass({this.myField});
 
   final String? myField;
@@ -187,6 +187,6 @@ class MyClass extends RandomClassExtendingEquatable {
 
 ![Make class extend Equatable sample](https://raw.githubusercontent.com/Br0nie5/equatable_lint_x/main/resources/make_class_extend_equatable.gif)
 
-### Make class use EquatableMixin
+### Make class use Equatable mixin
 
-![Make class use EquatableMixin sample](https://raw.githubusercontent.com/Br0nie5/equatable_lint_x/main/resources/make_class_use_equatable_mixin.gif)
+![Make class use Equatable mixin sample](https://raw.githubusercontent.com/Br0nie5/equatable_lint_x/main/resources/make_class_use_equatable_mixin.gif)

@@ -36,7 +36,7 @@ class MultipleFieldsNotInPropsFieldExample extends Equatable {
   late final List<Object?> props = [];
 }
 
-class FieldNotInPropsFieldWithEquatableMixinExample with EquatableMixin {
+class FieldNotInPropsFieldWithEquatableMixinExample with Equatable {
   FieldNotInPropsFieldWithEquatableMixinExample({this.field});
 
   final String? field;

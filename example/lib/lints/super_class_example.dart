@@ -20,7 +20,7 @@ class NeedToCallSuperWhenOverridingPropsSuperClassExample
   late final List<Object?> props = [newField];
 }
 
-class EquatableSuperMixinBase with EquatableMixin {
+class EquatableSuperMixinBase with Equatable {
   const EquatableSuperMixinBase({this.field});
 
   final String? field;

@@ -33,13 +33,13 @@ class BaseEquatableTestClass extends Equatable {
 ''');
   }
 
-  /// Should not show a lint if a class is directly with EquatableMixin and
+  /// Should not show a lint if a class is directly with Equatable mixin and
   /// props does not call super.props
   Future<void> test_case_2() async {
     await assertNoDiagnostics('''
 import 'package:equatable/equatable.dart';
 
-class BaseEquatableTestClass with EquatableMixin {
+class BaseEquatableTestClass with Equatable {
   const BaseEquatableTestClass();
 
   @override

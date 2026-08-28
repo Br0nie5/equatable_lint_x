@@ -79,14 +79,14 @@ class EquatableTestClass extends Equatable {
     );
   }
 
-  /// Should show a lint if the class is with EquatableMixin and a field is not
+  /// Should show a lint if the class is with Equatable mixin and a field is not
   /// in equatable props field
   Future<void> test_case_4() async {
     await assertDiagnostics(
       '''
 import 'package:equatable/equatable.dart';
 
-class EquatableTestClass with EquatableMixin {
+class EquatableTestClass with Equatable {
   EquatableTestClass({this.field});
 
   final String? field;
@@ -95,7 +95,7 @@ class EquatableTestClass with EquatableMixin {
   late final List<Object?> props = [];
 }
 ''',
-      [customLint(144, 5, variableName: 'field')],
+      [customLint(139, 5, variableName: 'field')],
     );
   }
 }

@@ -3,12 +3,12 @@ import 'package:equatable_lint_x/src/constants/equatable_constants.dart';
 import 'package:equatable_lint_x/src/utils/get_all_extend_classes_and_mixins.dart';
 
 /// Method that returns wether this node directly extends Equatable or use
-/// EquatableMixin
+/// Equatable mixin
 bool getHasDirectEquatableAncestor(ClassDeclaration node) {
   final isDirectlyExtendingEquatable =
       node.extendsClause?.superclass.name.lexeme == EquatableConst.className;
 
-  final isDirectlyWithEquatableMixin =
+  final isDirectlyWithEquatable =
       node.withClause?.childEntities
           .where(
             (child) =>
@@ -18,10 +18,10 @@ bool getHasDirectEquatableAncestor(ClassDeclaration node) {
           .isNotEmpty ??
       false;
 
-  return isDirectlyExtendingEquatable || isDirectlyWithEquatableMixin;
+  return isDirectlyExtendingEquatable || isDirectlyWithEquatable;
 }
 
-/// Method that returns wether this node has Equatable or EquatableMixin as an
+/// Method that returns wether this node has Equatable or Equatable mixin as an
 /// ancestor
 bool getHasEquatableAncestor(ClassDeclaration node) {
   final nodeAllExtendClassesAndMixin = getAllExtendClassesAndMixins(node);

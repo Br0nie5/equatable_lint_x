@@ -38,14 +38,14 @@ class EquatableTestClass extends BaseEquatableTestClass {
     );
   }
 
-  /// Should show a lint if the class has a superclass with EquatableMixin and a
-  /// field is not in equatable props getter
+  /// Should show a lint if the class has a superclass with Equatable mixin and
+  /// a field is not in equatable props getter
   Future<void> test_case_2() async {
     await assertDiagnostics(
       '''
 import 'package:equatable/equatable.dart';
 
-class BaseEquatableClass with EquatableMixin {
+class BaseEquatableClass with Equatable {
   const BaseEquatableClass();
 
   @override
@@ -61,7 +61,7 @@ class EquatableTestClass extends BaseEquatableClass {
   List<Object?> get props => [];
 }
 ''',
-      [customLint(283, 5, variableName: 'field')],
+      [customLint(278, 5, variableName: 'field')],
     );
   }
 }

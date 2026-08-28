@@ -7,7 +7,7 @@ class EquatableConst {
   static const className = 'Equatable';
 
   /// Equatable mixin displayName
-  static const mixinName = 'EquatableMixin';
+  static const mixinName = 'Equatable';
 
   /// Equatable package displayName
   static const packageName = 'equatable';
