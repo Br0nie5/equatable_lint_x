@@ -1,3 +1,8 @@
+### 0.5.0
+
+- Upgrade to analyzer `13.3.0`
+- Upgrade to equatable `2.1.0`
+
 ### 0.4.6
 
 - Upgrade to analyzer `12.1.0`
