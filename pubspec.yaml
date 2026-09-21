@@ -15,11 +15,11 @@ plugin:
 
 dependencies:
   analysis_server_plugin: ^0.3.18
-  analyzer: ^13.3.0
+  analyzer: ">=13.3.0 <15.0.0"
   analyzer_plugin: ^0.14.12
   collection: ^1.19.1
 
 dev_dependencies:
-  analyzer_testing: ^0.3.2
+  analyzer_testing: ">=0.3.2 <0.5.0"
   test: ^1.31.2
   test_reflective_loader: ^0.4.0
