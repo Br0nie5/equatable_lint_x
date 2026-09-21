@@ -7,21 +7,23 @@ on:
   pull_request:
     branches:
       - main
+  schedule:
+    - cron: "30 12 * * 0"
   workflow_call:
 
 jobs:
   test:
     name: "Test equatable_lint_x"
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04-arm
 
     steps:
       # Checkout repository
-      - uses: actions/checkout@v7.0.0
+      - uses: actions/checkout@v7.0.1
 
       # Setup Dart SDK
-      - uses: dart-lang/setup-dart@v1.7.2
+      - uses: dart-lang/setup-dart@v1.8.1
         with:
-          sdk: 3.12.2
+          sdk: 3.13.3
 
       - name: Install Dependencies
         run: dart pub get
@@ -39,6 +41,12 @@ jobs:
 
       - name: Test
         run: scripts/test.sh --coverage --ci
+
+      - name: Vulnerabilities scan
+        uses: google/osv-scanner-action/osv-scanner-action@v2.6.0
+        with:
+          scan-args: |-
+            --lockfile=pubspec.lock
 
       - name: Activate pana pub package to compute package score
         run: dart pub global activate pana

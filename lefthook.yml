@@ -7,3 +7,5 @@ pre-commit:
       run: dart analyze --fatal-infos lib test
     tests:
       run: ./scripts/test.sh --coverage
+    vulnerabilities-scan:
+      run: ./scripts/vulnerabilities_scan.sh
