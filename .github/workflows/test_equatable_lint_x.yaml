@@ -40,6 +40,12 @@ jobs:
       - name: Test
         run: scripts/test.sh --coverage --ci
 
+      - name: Vulnerabilities scan
+        uses: google/osv-scanner-action/osv-scanner-action@v2.6.0
+        with:
+          scan-args: |-
+            --lockfile=pubspec.lock
+
       - name: Activate pana pub package to compute package score
         run: dart pub global activate pana
 
