@@ -20,13 +20,24 @@ jobs:
     runs-on: ubuntu-26.04-arm
 
     steps:
-      # Checkout repository
       - uses: actions/checkout@v7.0.1
 
-      # Setup Dart SDK
+      - name: Read Flutter version from fvm
+        id: fvm
+        run: echo "flutter=$(jq -r '.flutter' .fvmrc)" >> "$GITHUB_OUTPUT"
+
+      - name: Resolve matching Dart version
+        id: dart
+        run: |
+          DART=$(curl -s https://storage.googleapis.com/flutter_infra_release/releases/releases_linux.json \
+            | jq -r --arg v "${{ steps.fvm.outputs.flutter }}" \
+              '[.releases[] | select(.version == $v)][0].dart_sdk_version' \
+            | awk '{print $1}')
+          echo "version=$DART" >> "$GITHUB_OUTPUT"
+
       - uses: dart-lang/setup-dart@v1.8.1
         with:
-          sdk: 3.13.5
+          sdk: ${{ steps.dart.outputs.version }}
 
       - name: Install Dependencies
         run: dart pub get
