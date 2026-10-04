@@ -12,18 +12,70 @@ on:
   workflow_call:
 
 jobs:
-  test:
-    name: "Test equatable_lint_x"
+  resolve-dart-matrix:
+    name: "Resolve Dart versions matrix from stable, beta and .fvmrc"
     runs-on: ubuntu-26.04-arm
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          sparse-checkout: .fvmrc
+          sparse-checkout-cone-mode: false
+
+      - name: Read Flutter version from fvm
+        id: fvm
+        run: echo "flutter=$(jq -r '.flutter' .fvmrc)" >> "$GITHUB_OUTPUT"
+
+      - name: Resolve matching Dart version
+        id: dart
+        run: |
+          DART=$(curl -fsS https://storage.googleapis.com/flutter_infra_release/releases/releases_linux.json \
+            | jq -r --arg flutter_version "${{ steps.fvm.outputs.flutter }}" \
+              '[.releases[] | select(.version == $flutter_version)][0].dart_sdk_version' \
+            | awk '{print $1}')
+          if [ -z "$DART" ] || [ "$DART" = "null" ]; then
+            echo "No Dart version found for Flutter ${{ steps.fvm.outputs.flutter }}" >&2
+            exit 1
+          fi
+          echo "version=$DART" >> "$GITHUB_OUTPUT"
+
+      - name: Build matrix
+        id: matrix
+        run: |
+          PINNED="${{ steps.dart.outputs.version }}"
+          STABLE=$(curl -fsS https://storage.googleapis.com/dart-archive/channels/stable/release/latest/VERSION \
+            | jq -r '.version')
+
+          if [ "$STABLE" = "$PINNED" ]; then
+            MATRIX=$(jq -nc '{include: [
+              {sdk: "stable", pinned: true},
+              {sdk: "beta",   pinned: false}
+            ]}')
+          else
+            MATRIX=$(jq -nc --arg pinned "$PINNED" '{include: [
+              {sdk: "stable",  pinned: false},
+              {sdk: "beta",    pinned: false},
+              {sdk: $pinned,   pinned: true}
+            ]}')
+          fi
+          echo "matrix=$MATRIX" >> "$GITHUB_OUTPUT"
+
+  test:
+    name: "Test equatable_lint_x (Dart ${{ matrix.sdk }})"
+    needs: resolve-dart-matrix
+    runs-on: ubuntu-26.04-arm
+    continue-on-error: ${{ matrix.sdk == 'beta' }}
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.resolve-dart-matrix.outputs.matrix) }}
 
     steps:
-      # Checkout repository
       - uses: actions/checkout@v7.0.1
 
-      # Setup Dart SDK
       - uses: dart-lang/setup-dart@v1.8.1
         with:
-          sdk: 3.13.3
+          sdk: ${{ matrix.sdk }}
 
       - name: Install Dependencies
         run: dart pub get
@@ -49,6 +101,7 @@ jobs:
             --lockfile=pubspec.lock
 
       - name: Activate pana pub package to compute package score
+        if: matrix.pinned
         run: dart pub global activate pana
 
       # It will always need a threshold of 10 since analyser is always
@@ -56,4 +109,5 @@ jobs:
       # So we lose points because we are not compatible with the latest
       # versions.
       - name: Check package score
+        if: matrix.pinned
         run: pana --exit-code-threshold=10
