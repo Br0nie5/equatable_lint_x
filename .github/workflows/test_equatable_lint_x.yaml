@@ -95,7 +95,7 @@ jobs:
         run: scripts/test.sh --coverage --ci
 
       - name: Vulnerabilities scan
-        uses: google/osv-scanner-action/osv-scanner-action@v2.6.0
+        uses: google/osv-scanner-action/osv-scanner-action@v2.7.0
         with:
           scan-args: |-
             --lockfile=pubspec.lock
