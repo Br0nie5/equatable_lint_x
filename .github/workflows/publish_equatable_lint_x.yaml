@@ -35,7 +35,7 @@ jobs:
             | awk '{print $1}')
           echo "version=$DART" >> "$GITHUB_OUTPUT"
 
-      - uses: dart-lang/setup-dart@v1.8.1
+      - uses: dart-lang/setup-dart@v1.8.2
         with:
           sdk: ${{ steps.dart.outputs.version }}
 
